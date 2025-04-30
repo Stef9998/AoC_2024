@@ -1,14 +1,11 @@
 from typing import Iterable
 
-from python.day3.utils import get_lines_as_list_p1, default_parser
-from utils import get_lines_as_list
+from python.day3.utils import get_lines_as_list_p1
+from python.day3.utils import get_lines_as_list_p2
 
 
 def part_one(lines: Iterable[list[(int, int)]]):
-    result = 0
-    for line in lines:
-        result += sum(map(lambda pair: pair[0] * pair[1], line))
-    return result
+    return sum(sum(pair[0] * pair[1] for pair in line) for line in lines)
 
 
 def part_two(lists):
@@ -17,7 +14,7 @@ def part_two(lists):
 
 
 if __name__ == '__main__':
-    part_one_result = part_one(get_lines_as_list(default_parser))
+    part_one_result = part_one(get_lines_as_list_p1())
     print(f"Part one result:\n{part_one_result}")
-    # part_two_result = part_two(get_lines_as_list())
-    # print(f"Part two result:\n{part_two_result}")
+    part_two_result = part_one(get_lines_as_list_p2())
+    print(f"Part two result:\n{part_two_result}")
