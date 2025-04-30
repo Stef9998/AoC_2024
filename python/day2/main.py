@@ -3,12 +3,16 @@ from typing import Iterable
 from utils import get_lines_as_list
 
 
-def part_one(lists: Iterable[list[int]]) -> int:
+def part_one_it(lists: Iterable[list[int]]) -> int:
     num_of_safe_reports = 0
     for numbers in lists:
         if is_report_safe(numbers):
             num_of_safe_reports += 1
     return num_of_safe_reports
+
+
+def part_one(lists: Iterable[list[int]]) -> int:
+    return sum(map(is_report_safe, lists))
 
 
 def is_report_safe(numbers: list[int]) -> bool:
