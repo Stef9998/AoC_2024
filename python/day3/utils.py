@@ -1,6 +1,6 @@
 from typing import Iterable
 
-from python.file_handling import get_file_as_lines
+from file_handling import get_file_as_lines
 
 
 def get_lines_as_list_p1() -> Iterable[list[(int, int)]]:
@@ -8,7 +8,7 @@ def get_lines_as_list_p1() -> Iterable[list[(int, int)]]:
 
 
 def get_lines_as_list_p2() -> Iterable[list[(int, int)]]:
-    return map(default_parser, remove_disabled(get_file_as_lines()))
+    return map(default_parser, remove_disabled([''.join(get_file_as_lines())]))
 
 
 def default_parser(line: str):

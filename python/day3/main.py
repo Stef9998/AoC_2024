@@ -1,7 +1,7 @@
 from typing import Iterable
 
-from python.day3.utils import get_lines_as_list_p1
-from python.day3.utils import get_lines_as_list_p2
+from day3.utils import get_lines_as_list_p1
+from day3.utils import get_lines_as_list_p2
 
 
 def part_one(lines: Iterable[list[(int, int)]]):
