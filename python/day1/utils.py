@@ -1,6 +1,6 @@
 import re
 
-from file_handling import get_file_as_lines
+from python.file_handling import get_file_as_lines
 
 def get_input_as_lists():
     data = get_file_as_lines()
