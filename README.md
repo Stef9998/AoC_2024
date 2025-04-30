@@ -6,7 +6,7 @@ Trying to solve the problems in a functional way
 | Day | Python | Haskell |
 |-----|--------|---------|
 | 1   | \[x\]  | \[ \]   |
-| 2   | \[ \]  | \[ \]   |
+| 2   | \[x\]  | \[ \]   |
 | 3   | \[ \]  | \[ \]   |
 | 4   | \[ \]  | \[ \]   |
 | 5   | \[ \]  | \[ \]   |
