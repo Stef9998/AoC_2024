@@ -1,13 +1,13 @@
 # Advent of Code 2024 solving
 Planing on using Haskell and Python
-Trying to solve the problems in a functional way
+Trying to solve the problems in a functional way for learning a bit of functional programming thinking.
 
 ## Solved
 | Day | Python | Haskell |
 |-----|--------|---------|
 | 1   | \[x\]  | \[ \]   |
 | 2   | \[x\]  | \[ \]   |
-| 3   | \[ \]  | \[ \]   |
+| 3   | \[x\]  | \[ \]   |
 | 4   | \[ \]  | \[ \]   |
 | 5   | \[ \]  | \[ \]   |
 | 6   | \[ \]  | \[ \]   |
@@ -30,3 +30,12 @@ Trying to solve the problems in a functional way
 | 23  | \[ \]  | \[ \]   |
 | 24  | \[ \]  | \[ \]   |
 | 25  | \[ \]  | \[ \]   |
+
+## Learnings / Interesting Findings
+
+### Python
+Day 4 - Part 1
+- Wanted to only use one pass through the input file
+- Used a closure to kee track of the current state of the last line
+
+
