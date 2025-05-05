@@ -1,33 +1,29 @@
-import collections
-from collections import deque
-
 
 def part_two(lines: list[str]) -> int:
-    
-    lines: deque[str] = collections.deque(lines)
-    line_count: int = len(lines)
+    return sum(found_x_patterns_in_specific_line(lines, line_number) for line_number in range(1, len(lines) - 1))
 
-    match = 0
 
-    previous_line = ""
-    current_line = lines.popleft()
-    next_line = lines.popleft()
+def found_x_patterns_in_specific_line(lines: list[str], line_number: int) -> int:
+    if line_number < 1 or line_number > len(lines) - 2:
+        raise ValueError("Line number out of range")
+    return found_x_patterns_in_line(lines[line_number - 1], lines[line_number], lines[line_number + 1])
 
-    for _ in range(line_count - 2):
-        previous_line = current_line
-        current_line = next_line
-        next_line = lines.popleft()
 
-        for char_index, char in enumerate(current_line[1:-1], start=1):
-            if char != 'A':
-                continue
-            if not are_opposite_x_arms(previous_line[char_index - 1], next_line[char_index + 1]):
-                continue
-            if not are_opposite_x_arms(previous_line[char_index + 1], next_line[char_index - 1]):
-                continue
-            match += 1
+def found_x_patterns_in_line(previous_line, current_line, next_line):
+    return sum(1
+               for char_index, char in enumerate(current_line[1:-1], start=1)
+               if is_center_of_x_pattern(char, char_index, previous_line, next_line))
 
-    return match
+
+def is_center_of_x_pattern(char, char_index, previous_line, next_line):
+    do_continue = True
+    if char != 'A':
+        do_continue = False
+    if not are_opposite_x_arms(previous_line[char_index - 1], next_line[char_index + 1]):
+        do_continue = False
+    if not are_opposite_x_arms(previous_line[char_index + 1], next_line[char_index - 1]):
+        do_continue = False
+    return do_continue
 
 
 def are_opposite_x_arms(first_char: str, second_char: str) -> bool:
@@ -39,9 +35,3 @@ def are_opposite_x_arms(first_char: str, second_char: str) -> bool:
         return False
     return True
 
-
-if __name__ == '__main__':
-    print(part_two(['MMMS',
-                    'MAMS',
-                    'SMSM',
-                    'XAAS']))
