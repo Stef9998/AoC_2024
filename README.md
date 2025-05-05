@@ -8,7 +8,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 1   | \[x\]  | \[ \]   |
 | 2   | \[x\]  | \[ \]   |
 | 3   | \[x\]  | \[ \]   |
-| 4   | \[ \]  | \[ \]   |
+| 4   | \[x\]  | \[ \]   |
 | 5   | \[ \]  | \[ \]   |
 | 6   | \[ \]  | \[ \]   |
 | 7   | \[ \]  | \[ \]   |
@@ -36,6 +36,6 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 ### Python
 Day 4 - Part 1
 - Wanted to only use one pass through the input file
-- Used a closure to kee track of the current state of the last line
-
+- Used a closure (for the first time) to keep track of the current state of the last line
+    - went a bit overboard with the closures :D
 

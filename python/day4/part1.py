@@ -1,9 +1,5 @@
 from collections import deque
 
-from numpy.f2py.auxfuncs import throw_error
-
-from python.file_handling import get_file_as_lines
-
 from enum import Enum
 
 class Direction(Enum):
@@ -13,31 +9,27 @@ class Direction(Enum):
 
 
 def part_one(lines: list[str]) -> int:
-    # Thinking about being able to only use one pass through the data (left->right, then down)
-    #  every time we find a X we can test for direction: right, right-down, down, down-left
-    #  every time we find a S we can test the same direction, but the word is now reversed
-
-    match = 0
 
     line_length = len(lines[0])
+    match_words = match_word_all_directions(line_length)
 
-    match_word_vertical = next_char_vertical_clojure(line_length, Direction.VERTICAL)
-    match_word_down_right = next_char_vertical_clojure(line_length, Direction.DOWN_RIGHT)
-    match_word_down_left = next_char_vertical_clojure(line_length, Direction.DOWN_LEFT)
-    for line in lines:
-        char_position = 0
-        match_word_horizontal = next_char_horizontal_clojure()
-        for char in line:
-            match += match_word_horizontal(char)
-            match += match_word_vertical(char, char_position)
-            match += match_word_down_right(char, char_position)
-            match += match_word_down_left(char, char_position)
+    match_word_in_line = lambda line: sum(match_words(char, char_position) for char_position, char in enumerate(line))
+    return sum(match_word_in_line(line) for line in lines)
 
-            char_position += 1
-        #     print(char, end="")
-        # print()
-    # print()
-    return match
+
+def match_word_all_directions(line_length):
+    horizontal_matcher = next_char_horizontal_clojure()
+    vertical_matcher = next_char_vertical_clojure(line_length, Direction.VERTICAL)
+    down_right_matcher = next_char_vertical_clojure(line_length, Direction.DOWN_RIGHT)
+    down_left_matcher = next_char_vertical_clojure(line_length, Direction.DOWN_LEFT)
+
+    def process_char(char: str, char_position: int) -> int:
+        return (horizontal_matcher(char, char_position)
+                + vertical_matcher(char, char_position)
+                + down_right_matcher(char, char_position)
+                + down_left_matcher(char, char_position))
+
+    return process_char
 
 
 def next_char_vertical_clojure(line_length: int, direction: Direction):
@@ -83,9 +75,12 @@ def next_char_horizontal_clojure():
     is_reversed = False
     last_char_index = 0
 
-    def process_char(char: str) -> int:
+    def process_char(char: str, char_position: int) -> int:
         nonlocal is_reversed, last_char_index
         matched = 0
+
+        if char_position == 0:
+            last_char_index = 0
 
         if found_next_char(char, is_reversed, last_char_index):
             if is_reversed:
@@ -129,10 +124,5 @@ def found_next_char(char: str, is_reversed: bool, before_char_index: int) -> boo
         if not is_reversed and before_char_index == 3:
             return True
     else:
-        throw_error(f"Unknown character {char}")
+        raise ValueError(f"Unexpected character: {char}")
     return False
-
-
-if __name__ == '__main__':
-    part_one_result = part_one(get_file_as_lines())
-    print(f"Part one result:\n{part_one_result}")
