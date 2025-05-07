@@ -10,7 +10,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 3   | \[x\]  | \[ \]   |
 | 4   | \[x\]  | \[ \]   |
 | 5   | \[ \]  | \[ \]   |
-| 6   | \[ \]  | \[ \]   |
+| 6   | \[/\]  | \[ \]   |
 | 7   | \[ \]  | \[ \]   |
 | 8   | \[ \]  | \[ \]   |
 | 9   | \[ \]  | \[ \]   |
