@@ -1,8 +1,8 @@
 from collections import deque
 
-from file_handling import get_file_as_lines
+from python.file_handling import get_file_as_lines
 
-from day9.utils import get_information
+from utils import get_information
 
 
 def main(lines: list[str]) -> int:
