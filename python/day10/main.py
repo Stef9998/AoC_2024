@@ -1,7 +1,7 @@
-from python.file_handling import get_file_as_lines
+from file_handling import get_file_as_lines
 
-from part1 import main as part_one
-from part2 import main as part_two
+from part2 import main as part_one
+from part1 import main as part_two
 
 
 if __name__ == '__main__':
