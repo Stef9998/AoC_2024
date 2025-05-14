@@ -2,9 +2,8 @@ from file_handling import get_file_as_lines, get_specific_file_as_lines
 
 from utils import get_numbers
 
-import time
-
 global buffer
+
 
 def main(lines: list[str]) -> int:
     global buffer
@@ -12,37 +11,32 @@ def main(lines: list[str]) -> int:
 
     numbers = get_numbers(lines[0])
 
-    begin_time = time.time()
-    for i in range(40):
-        start_time = time.time()
-        numbers = blink(numbers)
-        print(f"Iteration {i}, time: {start_time - begin_time:.3f}s")
-    print(f"Time: {time.time() - begin_time:.3f}s")
+    value = sum(transform_rec2(number, 75) for number in numbers)
 
-    return len(numbers)
+    return value
 
 
-def blink(stones: list[int]):
-    return [new_stone for stone in stones for new_stone in transform(stone)]
-
-
-def transform(number: int):
+def transform_rec2(number: int, blinks: int) -> int:
     global buffer
-    if number in buffer:
-        return buffer[number]
+    if (number, blinks) in buffer:
+        return buffer[(number,blinks)]
+    number_len = len(str(number))
+    next_blinks = blinks - 1
+    if blinks == 0:
+        return 1
     if number == 0:
-        buffer[number] = (1,)
-        return (1,)
-    if len(str(number)) % 2 == 0:
-        new_numbers = int(str(number)[:len(str(number)) // 2]), int(str(number)[len(str(number)) // 2:])
-        buffer[number] = new_numbers
-        return new_numbers
-    buffer[number] = (number * 2024,)
-    return (number * 2024,)
+        temp = transform_rec2(1, next_blinks)
+        buffer[(number,blinks)] = temp
+        return temp
+    if number_len % 2 == 0:
+        temp = transform_rec2(int(str(number)[:len(str(number)) >> 1]), next_blinks) + transform_rec2(
+            int(str(number)[len(str(number)) >> 1:]), next_blinks)
+        buffer[(number,blinks)] = temp
+        return temp
 
+    return transform_rec2(number * 2024, next_blinks)
 
 if __name__ == '__main__':
     part_two_result = main(get_file_as_lines())
     # part_one_result = main(get_specific_file_as_lines('sample_input.txt'))
     print(f"Part two result:\n{part_two_result}")
-    assert part_two_result == 1604873
