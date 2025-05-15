@@ -1,4 +1,6 @@
-from day6.util import init_maze_findings, Coordinate
+from day6.utils import init_maze_findings
+
+from map_handling import Coordinate
 
 
 def main(lines: list[str]) -> int:
@@ -16,11 +18,11 @@ def main(lines: list[str]) -> int:
 
     while True:
         visited.add(guard_position)
-        next_position = (guard_position[0] + guard_direction.value[0], guard_position[1] + guard_direction.value[1])
+        next_position = guard_position + guard_direction.value
         while next_position in obstacle_positions:
             guard_direction = guard_direction.turn_right()
-            next_position = (guard_position[0] + guard_direction.value[0], guard_position[1] + guard_direction.value[1])
-        if next_position[0] < 0 or next_position[0] >= maze_width or next_position[1] < 0 or next_position[1] >= maze_height:
+            next_position = guard_position + guard_direction.value
+        if next_position.x < 0 or next_position.x >= maze_width or next_position.y < 0 or next_position.y >= maze_height:
             break
         guard_position = next_position
 

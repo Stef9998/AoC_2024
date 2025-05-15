@@ -40,9 +40,9 @@ def p1_find_antinodes(antenna_coordinates: list[(int, int)], is_in_of_bounds):
 
 
 def p1_possible_antinode_positions_calculator(antenna_coordinate, base_antenna_coordinate):
-    diff = (base_antenna_coordinate[0] - antenna_coordinate[0], base_antenna_coordinate[1] - antenna_coordinate[1])
-    possible_antinode_antenna_1 = (base_antenna_coordinate[0] + diff[0], base_antenna_coordinate[1] + diff[1])
-    possible_antinode_antenna_2 = (antenna_coordinate[0] - diff[0], antenna_coordinate[1] - diff[1])
+    diff = base_antenna_coordinate - antenna_coordinate
+    possible_antinode_antenna_1 = base_antenna_coordinate + diff
+    possible_antinode_antenna_2 = antenna_coordinate - diff
     return [possible_antinode_antenna_1, possible_antinode_antenna_2]
 
 
@@ -59,15 +59,15 @@ def p2_find_antinodes(antenna_coordinates: list[(int, int)], is_out_of_bounds):
 
 
 def p2_possible_antinode_positions_calculator(antenna_coordinate, base_antenna_coordinate, is_out_of_bounds):
-    diff = (base_antenna_coordinate[0] - antenna_coordinate[0], base_antenna_coordinate[1] - antenna_coordinate[1])
+    diff = base_antenna_coordinate - antenna_coordinate
     possible_antinode_positions = []
     for i in count(start=0):
-        possible_antinode_position = (base_antenna_coordinate[0] + i*diff[0], base_antenna_coordinate[1] + i*diff[1])
+        possible_antinode_position = base_antenna_coordinate + i*diff
         if is_out_of_bounds(possible_antinode_position):
             break
         possible_antinode_positions.append(possible_antinode_position)
     for i in count(start=0):
-        possible_antinode_position = (antenna_coordinate[0] - i*diff[0], antenna_coordinate[1] - i*diff[1])
+        possible_antinode_position = antenna_coordinate - i*diff
         if is_out_of_bounds(possible_antinode_position):
             break
         possible_antinode_positions.append(possible_antinode_position)

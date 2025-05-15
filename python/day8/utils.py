@@ -1,5 +1,5 @@
+from map_handling import Coordinate
 
-type Coordinate = tuple[int, int]
 
 def init_map_findings(maze: list[str]):
     width = len(maze[0])
@@ -20,7 +20,7 @@ def init_map_findings(maze: list[str]):
 def add_char_to_database(char: str, x: int, y: int, database: dict[str, list[Coordinate]]):
     if char not in database:
         database[char] = []
-    database[char].append((x, y))
+    database[char].append(Coordinate(x, y))
 
 
 def init_out_of_bounds_calculator(width: int, height: int):
