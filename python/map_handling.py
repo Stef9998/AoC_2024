@@ -1,3 +1,7 @@
+
+from enum import Enum
+
+
 # type Coordinate = tuple[int, int]
 
 # TODO: Test if Coordinate class works the same as tuple[int, int]
@@ -46,3 +50,20 @@ class Coordinate:
 
     def __repr__(self) -> str:
         return f"Coordinate({self.x}, {self.y})"
+
+
+def out_of_bounds(position: Coordinate, maze_width: int, maze_height: int) -> bool:
+    return position.x < 0 or position.x >= maze_width or position.y < 0 or position.y >= maze_height
+
+
+def get_map_dimensions(map_data: list[str]) -> tuple[int, int]:
+    """
+    Get the dimensions of the map.
+
+    Args:
+        map_data (list[str]): The map represented as a list of strings. Each character in the string represents a cell in the map.
+
+    Returns:
+        tuple[int, int]: The height and width of the map.
+    """
+    return len(map_data), len(map_data[0])
