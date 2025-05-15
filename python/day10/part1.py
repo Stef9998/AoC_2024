@@ -1,4 +1,5 @@
 from file_handling import get_file_as_lines, get_specific_file_as_lines
+from map_handling import Coordinate
 
 from utils import get_trail_starts
 
@@ -20,8 +21,8 @@ def score_of_map(trail_map: list[list[int]]):
     return sum(len(score_of_trail(coordinate, 0, trail_map, set())) for coordinate in start_coordinates)
 
 
-def score_of_trail(coordinate: (int, int), expected_number: int, trail_map: list[list[int]],
-                   found_ends: set[tuple[int, int]]):
+def score_of_trail(coordinate: Coordinate, expected_number: int, trail_map: list[list[int]],
+                   found_ends: set[Coordinate]):
     """
     Calculate the score of a trail starting from the given coordinate in the trail map.
 
@@ -49,8 +50,8 @@ def score_of_trail(coordinate: (int, int), expected_number: int, trail_map: list
         ...     [ 8,-1,-1,-1,-1,-1, 8],
         ...     [ 9,-1,-1,-1,-1,-1, 9],
         ... ]
-        >>> score_of_trail((0, 3), 0, trail_map_, set())
-        {(6, 6), (6, 0)}
+        >>> score_of_trail(Coordinate(0, 3), 0, trail_map_, set())
+        {Coordinate(6, 6), Coordinate(6, 0)}
     """
     y = coordinate[0]
     x = coordinate[1]
@@ -69,36 +70,37 @@ def score_of_trail(coordinate: (int, int), expected_number: int, trail_map: list
     return found_ends
 
 
-def get_surrounding_coordinates(coordinate: (int, int)) -> list[tuple[int, int]]:
+def get_surrounding_coordinates(coordinate: Coordinate) -> list[Coordinate]:
     """
     Get the surrounding coordinates of a given coordinate in a 2D grid.
     Surrounding means only up, down, left and right. Not diagonal.
     When the given coordinate is on the edge of the grid, only the ones inside will be returned
 
     Args:
-        coordinate (tuple[int, int]): The current coordinate (row, column).
+        coordinate (Coordinate): The current coordinate (row, column).
 
     Returns:
-        list[tuple[int, int]]: A list of valid surrounding coordinates.
+        list[Coordinate]: A list of valid surrounding coordinates.
 
     Examples:
         >>> init_global_variables_doctest(5,5)
-        >>> list(get_surrounding_coordinates((0, 0)))
-        [(1, 0), (0, 1)]
-        >>> list(get_surrounding_coordinates((4, 4)))
-        [(3, 4), (4, 3)]
-        >>> list(get_surrounding_coordinates((2, 2)))
-        [(1, 2), (3, 2), (2, 1), (2, 3)]
-        >>> list(get_surrounding_coordinates((0, 4)))
-        [(1, 4), (0, 3)]
-        >>> list(get_surrounding_coordinates((4, 0)))
-        [(3, 0), (4, 1)]
+        >>> list(get_surrounding_coordinates(Coordinate(0, 0)))
+        [Coordinate(1, 0), Coordinate(0, 1)]
+        >>> list(get_surrounding_coordinates(Coordinate(4, 4)))
+        [Coordinate(3, 4), Coordinate(4, 3)]
+        >>> list(get_surrounding_coordinates(Coordinate(2, 2)))
+        [Coordinate(1, 2), Coordinate(3, 2), Coordinate(2, 1), Coordinate(2, 3)]
+        >>> list(get_surrounding_coordinates(Coordinate(0, 4)))
+        [Coordinate(1, 4), Coordinate(0, 3)]
+        >>> list(get_surrounding_coordinates(Coordinate(4, 0)))
+        [Coordinate(3, 0), Coordinate(4, 1)]
     """
+    global height, width
     possible_coordinates = [
-        (coordinate[0] - 1, coordinate[1]) if coordinate[0] > 0 else None,
-        (coordinate[0] + 1, coordinate[1]) if coordinate[0] < height - 1 else None,
-        (coordinate[0], coordinate[1] - 1) if coordinate[1] > 0 else None,
-        (coordinate[0], coordinate[1] + 1) if coordinate[1] < width - 1 else None,
+        coordinate + Coordinate(-1,0) if coordinate[0] > 0 else None,
+        coordinate + Coordinate(1,0) if coordinate[0] < height - 1 else None,
+        coordinate + Coordinate(0,-1) if coordinate[1] > 0 else None,
+        coordinate + Coordinate(0,1) if coordinate[1] < width - 1 else None,
     ]
     return list(filter(lambda x: x is not None, possible_coordinates))
 

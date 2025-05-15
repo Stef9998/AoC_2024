@@ -1,5 +1,5 @@
+from map_handling import Coordinate
 
-type Coordinate = tuple[int, int]
 
 def init_map_findings(maze: list[str]):
     width = len(maze[0])

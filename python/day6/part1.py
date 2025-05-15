@@ -1,5 +1,6 @@
-from day6.util import init_maze_findings, Coordinate, Direction
+from day6.utils import init_maze_findings, Direction
 from file_handling import get_file_as_lines
+from map_handling import Coordinate
 
 
 def main(lines: list[str]) -> int:
@@ -14,8 +15,8 @@ def main(lines: list[str]) -> int:
     guard_direction = maze_information["guard_direction"]
 
     outside_bounds = lambda position: (
-            position[0] < 0 or position[0] >= maze_width
-            or position[1] < 0 or position[1] >= maze_height
+            position.x < 0 or position.x >= maze_width
+            or position.y < 0 or position.y >= maze_height
     )
     get_next_guard_state = lambda position, direction: (
         get_next_guard_state_with_obstacles(position, direction, obstacle_positions)
@@ -33,7 +34,7 @@ def main(lines: list[str]) -> int:
     return len(visited)
 
 
-def get_next_guard_state_with_obstacles(guard_position, guard_direction, obstacle_positions):
+def get_next_guard_state_with_obstacles(guard_position: Coordinate, guard_direction, obstacle_positions):
     next_position = calc_next_position(guard_direction, guard_position)
     if next_position not in obstacle_positions:
         return next_position, guard_direction
@@ -41,7 +42,7 @@ def get_next_guard_state_with_obstacles(guard_position, guard_direction, obstacl
 
 
 def calc_next_position(guard_direction: Direction, guard_position: Coordinate) -> Coordinate:
-    return guard_position[0] + guard_direction.value[0], guard_position[1] + guard_direction.value[1]
+    return guard_position + guard_direction.value
 
 
 if __name__ == '__main__':
