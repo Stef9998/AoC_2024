@@ -1,6 +1,6 @@
 from collections import deque
 
-from python.file_handling import get_file_as_lines
+from file_handling import get_file_as_lines
 
 from utils import get_information
 
