@@ -46,3 +46,7 @@ class Coordinate:
 
     def __repr__(self) -> str:
         return f"Coordinate({self.x}, {self.y})"
+
+
+def out_of_bounds(position: Coordinate, maze_width: int, maze_height: int) -> bool:
+    return position.x < 0 or position.x >= maze_width or position.y < 0 or position.y >= maze_height
