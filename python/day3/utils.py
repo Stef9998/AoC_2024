@@ -1,22 +1,22 @@
 from typing import Iterable
 
-from file_handling import get_file_as_lines
+from list_handling import parse_lines
+
+import re
 
 
-def get_lines_as_list_p1() -> Iterable[list[(int, int)]]:
-    return map(default_parser, get_file_as_lines())
+def get_lines_as_list_p1(lines) -> Iterable[list[(int, int)]]:
+    return parse_lines(lines,default_parser)
 
 
-def get_lines_as_list_p2() -> Iterable[list[(int, int)]]:
-    return map(default_parser, remove_disabled([''.join(get_file_as_lines())]))
+def get_lines_as_list_p2(lines) -> Iterable[list[(int, int)]]:
+    return parse_lines(remove_disabled([''.join(lines)]), default_parser)
 
 
 def default_parser(line: str):
-    import re
     reg = re.findall(r'mul\((\d+),(\d+)\)', line)
     return list(map(lambda tup: (int(tup[0]),int(tup[1])), reg))
 
-import re
 
 def remove_disabled(lines: list[str]) -> list[str]:
     return_lines = []
