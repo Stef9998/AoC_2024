@@ -1,4 +1,4 @@
-from map_handling import Coordinate
+from map_handling import Coordinate, out_of_bounds
 
 
 def init_map_findings(maze: list[str]):
@@ -23,13 +23,9 @@ def add_char_to_database(char: str, x: int, y: int, database: dict[str, list[Coo
     database[char].append(Coordinate(x, y))
 
 
-def init_out_of_bounds_calculator(width: int, height: int):
+def init_in_bounds_calculator(width: int, height: int):
 
     def is_in_bounds(coordinate: Coordinate):
-        if coordinate[0] < 0 or coordinate[0] >= width:
-            return False
-        if coordinate[1] < 0 or coordinate[1] >= height:
-            return False
-        return True
+        return not out_of_bounds(Coordinate(*coordinate), width, height)
 
     return is_in_bounds

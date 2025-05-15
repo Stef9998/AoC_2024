@@ -1,28 +1,28 @@
 from itertools import count
 
-from utils import init_map_findings, init_out_of_bounds_calculator
+from utils import init_map_findings, init_in_bounds_calculator
 
 from file_handling import get_file_as_lines
 
 
 def part_one(lines: list[str]) -> int:
     map_findings, maze = init_map_findings(lines)
-    out_of_bounds_calculator = init_out_of_bounds_calculator(len(maze[0]), len(maze))
+    in_bounds_calculator = init_in_bounds_calculator(len(maze[0]), len(maze))
 
     antinodes = set()
     for specific_frequency_antennas in map_findings.values():
-        antinodes.update(p1_find_antinodes(specific_frequency_antennas, out_of_bounds_calculator))
+        antinodes.update(p1_find_antinodes(specific_frequency_antennas, in_bounds_calculator))
     # print(antinodes)
     return len(antinodes)
 
 
 def part_two(lines: list[str]) -> int:
     map_findings, maze = init_map_findings(lines)
-    out_of_bounds_calculator = init_out_of_bounds_calculator(len(maze[0]), len(maze))
+    in_bounds_calculator = init_in_bounds_calculator(len(maze[0]), len(maze))
 
     antinodes = set()
     for specific_frequency_antennas in map_findings.values():
-        antinodes.update(p2_find_antinodes(specific_frequency_antennas, lambda antinode_antenna: not out_of_bounds_calculator(antinode_antenna)))
+        antinodes.update(p2_find_antinodes(specific_frequency_antennas, lambda antinode_antenna: not in_bounds_calculator(antinode_antenna)))
     # print(antinodes)
     return len(antinodes)
 
