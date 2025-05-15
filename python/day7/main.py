@@ -1,7 +1,6 @@
-from collections import deque
 from typing import Iterable
 
-from day7.util import lines_to_data
+from day7.utils import lines_to_data
 from file_handling import get_file_as_lines
 
 
@@ -102,8 +101,8 @@ def result_calculator_recursive(result, accumulator, operants, operants_index):
     #     for operator_function in operator_functions
     # )
 
-part_one_target = 'xxx'
-part_two_target = 'xxx'
+part_one_target = 850435817339
+part_two_target = 104824810233437
 
 if __name__ == '__main__':
     part_one_result = part_one(get_file_as_lines())

@@ -1,5 +1,5 @@
 
-def part_two(lines: list[str]) -> int:
+def main(lines: list[str]) -> int:
     return sum(found_x_patterns_in_specific_line(lines, line_number) for line_number in range(1, len(lines) - 1))
 
 
