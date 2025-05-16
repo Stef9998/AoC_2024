@@ -1,6 +1,6 @@
 from file_handling import get_file_as_lines, get_specific_file_as_lines
 
-from map_handling import Coordinate, get_map_dimensions
+from map_handling import Coordinate, Direction, get_map_dimensions
 from utils import get_trail_starts
 
 global height, width
@@ -90,10 +90,10 @@ def get_surrounding_coordinates(coordinate: Coordinate) -> list[Coordinate]:
     """
     global height, width
     possible_coordinates = [
-        coordinate + Coordinate(-1,0) if coordinate[0] > 0 else None,
-        coordinate + Coordinate(1,0) if coordinate[0] < height - 1 else None,
-        coordinate + Coordinate(0,-1) if coordinate[1] > 0 else None,
-        coordinate + Coordinate(0,1) if coordinate[1] < width - 1 else None,
+        coordinate + Direction.LEFT.value if coordinate[0] > 0 else None,
+        coordinate + Direction.RIGHT.value if coordinate[0] < height - 1 else None,
+        coordinate + Direction.UP.value if coordinate[1] > 0 else None,
+        coordinate + Direction.DOWN.value if coordinate[1] < width - 1 else None,
     ]
     return list(filter(lambda x: x is not None, possible_coordinates))
 
