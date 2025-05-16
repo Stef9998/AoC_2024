@@ -56,6 +56,21 @@ def out_of_bounds(position: Coordinate, maze_width: int, maze_height: int) -> bo
     return position.x < 0 or position.x >= maze_width or position.y < 0 or position.y >= maze_height
 
 
+class Direction(Enum):
+    UP = Coordinate(0, -1)
+    RIGHT = Coordinate(1, 0)
+    DOWN = Coordinate(0, 1)
+    LEFT = Coordinate(-1, 0)
+
+    @property
+    def x(self) -> int:
+        return self.value[0]
+
+    @property
+    def y(self) -> int:
+        return self.value[1]
+
+
 def get_map_dimensions(map_data: list[str]) -> tuple[int, int]:
     """
     Get the dimensions of the map.

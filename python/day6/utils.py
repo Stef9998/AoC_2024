@@ -1,22 +1,9 @@
-from enum import Enum
-from map_handling import Coordinate
+from map_handling import Coordinate, Direction
 
-class Direction(Enum):
-    UP = Coordinate(0, -1)
-    RIGHT = Coordinate(1, 0)
-    DOWN = Coordinate(0, 1)
-    LEFT = Coordinate(-1, 0)
-
-    def get_x(self) -> int:
-        return self.value[0]
-
-    def get_y(self) -> int:
-        return self.value[1]
-
-    def turn_right(self) -> 'Direction':
-            directions = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT]
-            current_index = directions.index(self)
-            return directions[(current_index + 1) % len(directions)]
+def turn_right(direction: Direction) -> Direction:
+    directions = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT]
+    current_index = directions.index(direction)
+    return directions[(current_index + 1) % len(directions)]
 
 
 def init_maze_findings(maze: list[str]):
