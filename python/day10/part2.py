@@ -1,6 +1,6 @@
 from file_handling import get_file_as_lines, get_specific_file_as_lines
 
-from map_handling import Coordinate
+from map_handling import Coordinate, get_map_dimensions
 from utils import get_trail_starts
 
 global height, width
@@ -8,8 +8,7 @@ global height, width
 
 def main(lines: list[str]) -> int:
     global height, width
-    height = len(lines)
-    width = len(lines[0])
+    height, width = get_map_dimensions(lines)
 
     trail_map = [[int(char) for char in line] for line in lines]
 
