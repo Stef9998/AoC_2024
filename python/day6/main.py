@@ -7,5 +7,7 @@ from part2 import main as part_two
 if __name__ == '__main__':
     part_one_result = part_one(get_file_as_lines())
     print(f"Part one result:\n{part_one_result}")
+    assert part_one_result == 4711, f'Expected 4711, but got {part_one_result}'
     # part_two_result = part_two(get_file_as_lines())
     # print(f"Part two result:\n{part_two_result}")
+    # assert part_two_result ==

@@ -8,7 +8,7 @@ class Direction(Enum):
     DOWN_LEFT = -1
 
 
-def part_one(lines: list[str]) -> int:
+def main(lines: list[str]) -> int:
 
     line_length = len(lines[0])
     match_words = match_word_all_directions(line_length)

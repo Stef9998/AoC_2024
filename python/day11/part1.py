@@ -1,10 +1,10 @@
 from file_handling import get_file_as_lines, get_specific_file_as_lines
 
-from utils import get_numbers
+from list_handling import number_parser
 
 
 def main(lines: list[str]) -> int:
-    numbers = get_numbers(lines[0])
+    numbers = number_parser(lines[0])
 
     for _ in range(25):
         numbers = blink(numbers)

@@ -1,6 +1,7 @@
 from typing import Iterable
 
-from utils import get_lines_as_list
+from file_handling import get_file_as_lines
+from list_handling import get_lines_of_numbers
 
 
 def part_two(lists: Iterable[list[int]]) -> int:
@@ -29,7 +30,9 @@ def compare_adjacent_numbers(numbers, comparator):
 
 
 if __name__ == '__main__':
-    part_one_result = part_one(get_lines_as_list())
+    part_one_result = part_one(get_lines_of_numbers(get_file_as_lines()))
     print(f"Part one result:\n{part_one_result}")
-    part_two_result = part_two(get_lines_as_list())
+    assert part_one_result == 490
+    part_two_result = part_two(get_lines_of_numbers(get_file_as_lines()))
     print(f"Part two result:\n{part_two_result}")
+    assert part_two_result == 536

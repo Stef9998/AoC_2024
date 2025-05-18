@@ -1,23 +1,9 @@
-from enum import Enum
+from map_handling import Coordinate, Direction
 
-type Coordinate = tuple[int, int]
-
-class Direction(Enum):
-    UP = (0, -1)
-    RIGHT = (1, 0)
-    DOWN = (0, 1)
-    LEFT = (-1, 0)
-
-    def get_x(self) -> int:
-        return self.value[0]
-
-    def get_y(self) -> int:
-        return self.value[1]
-
-    def turn_right(self) -> 'Direction':
-            directions = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT]
-            current_index = directions.index(self)
-            return directions[(current_index + 1) % len(directions)]
+def turn_right(direction: Direction) -> Direction:
+    directions = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT]
+    current_index = directions.index(direction)
+    return directions[(current_index + 1) % len(directions)]
 
 
 def init_maze_findings(maze: list[str]):
@@ -32,12 +18,12 @@ def init_maze_findings(maze: list[str]):
             if is_empty(char):
                 continue
             if is_obstacle(char):
-                obstacle_positions.add((x, y))
+                obstacle_positions.add(Coordinate(x, y))
                 continue
             if is_direction(char):
                 if guard_start is not None:
                     raise ValueError("Multiple start points found in the maze.")
-                guard_start = (x, y)
+                guard_start = Coordinate(x, y)
                 guard_direction = get_direction(char)
                 continue
             raise ValueError(f"Invalid character '{char}' at ({x}, {y})")
