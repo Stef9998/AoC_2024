@@ -1,13 +1,239 @@
+from dataclasses import dataclass
+from typing import Callable
+
+import map_handling
 from file_handling import get_file_as_lines, get_specific_file_as_lines
+from map_handling import Coordinate, out_of_bounds, out_of_bounds_calculator
+
+
+@dataclass(frozen=True)
+class Plot:
+    area: int
+    perimeter: int
+    coordinates: set[Coordinate]
+
+
+# @dataclass(frozen=True)
+# class PlotSpace:
+#     plot_type: str
+#     coordinate: Coordinate
+
+
+height: int = 0
+width: int = 0
+is_out_of_bounds: Callable[[Coordinate], bool] = None
+
+
+def initialize_globals(lines: list[str]) -> None:
+    global is_out_of_bounds, height, width
+    height, width = map_handling.get_map_dimensions(lines)
+    is_out_of_bounds = out_of_bounds_calculator(width, height)
 
 
 def main(lines: list[str]) -> int:
+    initialize_globals(lines)
+
+    non_visited = {Coordinate(x, y) for y in range(height) for x in range(width)}
+    fence_cost = 0
+    while non_visited:
+        next_non_visited = non_visited.pop()
+        plot = fill_one_plot(lines, next_non_visited)
+        non_visited -= plot.coordinates
+        fence_cost += plot.area * plot.perimeter
+
+    return fence_cost
 
 
-    return 0
+# def get_plot_space(maze: list[str], coordinate: Coordinate) -> PlotSpace:
+#     """
+#     Get the plot space for a given coordinate in the maze.
+#
+#     Args:
+#         maze (list[str]): The maze represented as a list of strings.
+#         coordinate (Coordinate): The coordinate to check.
+#
+#     Returns:
+#         PlotSpace: The plot space at the given coordinate.
+#
+#     Examples:
+#         >>> maze = [
+#         ...     "AAAA",
+#         ...     "BBCD",
+#         ...     "BBCC",
+#         ...     "EEEC"
+#         ... ]
+#         >>> get_plot_space(maze, Coordinate(1, 1))
+#         PlotSpace(plot_type='B', coordinate=Coordinate(1, 1))
+#         >>> get_plot_space(maze, Coordinate(2, 0))
+#         PlotSpace(plot_type='A', coordinate=Coordinate(2, 0))
+#     """
+#     plot_type = maze[coordinate.y][coordinate.x]
+#     return PlotSpace(plot_type=plot_type, coordinate=coordinate)
+
+
+def fill_one_plot(maze: list[str], start_coordinate: Coordinate) -> Plot:
+    """
+    Recursively fills the plot starting from the given coordinate.
+
+    Args:
+        maze (list[str]): The maze represented as a list of strings.
+        start_coordinate (Coordinate): The starting coordinate for filling the plot.
+
+    Returns:
+        Plot: The filled plot.
+
+    Examples:
+        >>> maze = [
+        ...     "AAAA",
+        ...     "ABCD",
+        ...     "ABCC",
+        ...     "EEEC"
+        ... ]
+        >>> initialize_globals(maze)
+        >>> result1 = Plot(area=6, perimeter=14, coordinates={Coordinate(0, 0), Coordinate(1, 0), Coordinate(2, 0), Coordinate(3, 0), Coordinate(0, 1), Coordinate(0, 2)})
+        >>> fill_one_plot(maze, Coordinate(0, 0)) == result1
+        True
+        >>> result2 = Plot(area=2, perimeter=6, coordinates={Coordinate(1, 1), Coordinate(1, 2)})
+        >>> fill_one_plot(maze, Coordinate(1, 1)) == result2
+        True
+        >>> fill_one_plot(maze, Coordinate(3, 1))
+        Plot(area=1, perimeter=4, coordinates={Coordinate(3, 1)})
+    """
+    visited = fill_plot_recursive(maze, start_coordinate, {start_coordinate})
+    area = len(visited)
+    perimeter = get_plot_perimeter(visited)
+
+    return Plot(area=area, perimeter=perimeter, coordinates=visited)
+
+    # return new found, and then the plot. (maybe integrate new found into the plot-class/-data)
+
+
+def get_plot_perimeter(visited):
+    """
+    Calculate the perimeter of the plot based on the visited coordinates.
+
+    Args:
+        visited (set[Coordinate]): A set of visited coordinates.
+
+    Returns:
+        int: The perimeter of the plot.
+
+    Examples:
+        >>> visited = {Coordinate(0, 0), Coordinate(1, 0), Coordinate(2, 0), Coordinate(3, 0), Coordinate(0, 1), Coordinate(0, 2)}
+        >>> get_plot_perimeter(visited)
+        14
+    """
+    return sum(get_perimeter_for_coordinate(coordinate, visited) for coordinate in visited)
+
+
+def get_perimeter_for_coordinate(coordinate, visited):
+    """
+    Calculate the perimeter contribution of a single coordinate.
+
+    Args:
+        coordinate (Coordinate): The coordinate to calculate the perimeter for.
+        visited (set[Coordinate]): A set of visited coordinates.
+
+    Returns:
+        int: The perimeter contribution of the coordinate.
+
+    Examples:
+        >>> visited = {Coordinate(0, 0), Coordinate(1, 0), Coordinate(2, 0), Coordinate(3, 0), Coordinate(0, 1), Coordinate(0, 2)}
+        >>> get_perimeter_for_coordinate(Coordinate(0, 0), visited)
+        2
+        >>> get_perimeter_for_coordinate(Coordinate(1, 0), visited)
+        2
+        >>> get_perimeter_for_coordinate(Coordinate(3, 0), visited)
+        3
+        >>> get_perimeter_for_coordinate(Coordinate(0, 2), visited)
+        3
+    """
+    no_of_surrounding_coordinates = sum(1 for surrounding_coordinate in surrounding_coordinates(coordinate) if surrounding_coordinate in visited)
+    return 4 - no_of_surrounding_coordinates
+
+def fill_plot_recursive(maze: list[str], coordinate: Coordinate, visited: set[Coordinate]) -> set[Coordinate]:
+    same_plot_coordinates = list(filter(
+        lambda coord: coord not in visited and coordinates_same_plot(maze, coordinate, coord),
+        surrounding_coordinates(coordinate)
+    ))
+    if not same_plot_coordinates:
+        return visited
+    visited.update(same_plot_coordinates)
+    for new_coordinate in same_plot_coordinates:
+        visited.update(fill_plot_recursive(maze, new_coordinate, visited))
+    return visited
+
+
+def surrounding_coordinates(coordinate):
+    return (coordinate + direction.value for direction in map_handling.Direction)
+
+
+def coordinates_same_plot(maze: list[str], plot_coordinate: Coordinate, new_coordinate: Coordinate) -> bool:
+    """
+    Check if two coordinates are part of the same plot.
+
+    Args:
+        maze (list[str]): The maze represented as a list of strings.
+        plot_coordinate (Coordinate): The coordinate of the plot.
+        new_coordinate (Coordinate): The new coordinate to check.
+
+    Returns:
+        bool: True if both coordinates are part of the same plot, False otherwise.
+
+    Examples:
+        >>> maze = [
+        ...     "AAAA",
+        ...     "ABCD",
+        ...     "ABCC",
+        ...     "EEEC"
+        ... ]
+        >>> initialize_globals(maze)
+        >>> coordinates_same_plot(maze, Coordinate(0, 0), Coordinate(1, 0))
+        True
+        >>> coordinates_same_plot(maze, Coordinate(0, 0), Coordinate(1, 1))
+        False
+        >>> coordinates_same_plot(maze, Coordinate(0, 0), Coordinate(-1, -1))
+        False
+    """
+    if is_out_of_bounds(new_coordinate):
+        return False
+    if get_plot_type(maze, plot_coordinate) != get_plot_type(maze, new_coordinate):
+        return False
+    return True
+
+
+def get_plot_type(maze: list[str], coordinate: Coordinate) -> str:
+    return maze[coordinate.y][coordinate.x]
+
+
+def get_new_lowest_non_visited_per_line(old_lowest: list[Coordinate], new_coordinate: Coordinate) -> Coordinate:
+    """
+    Updates the lowest non-visited coordinate for a specific line.
+
+    Args:
+        old_lowest (list[Coordinate]): The current list of lowest non-visited coordinates per line.
+        new_coordinate (Coordinate): The new coordinate to compare.
+
+    Returns:
+        Coordinate: The updated lowest non-visited coordinate for the line.
+
+    Examples:
+        >>> old_lowest = [Coordinate(0, 0), Coordinate(1, 1), Coordinate(2, 2)]
+        >>> new_coordinate = Coordinate(3, 1)
+        >>> get_new_lowest_non_visited_per_line(old_lowest, new_coordinate)
+        Coordinate(3, 1)
+
+        >>> old_lowest = [Coordinate(0, 0), Coordinate(4, 1), Coordinate(2, 2)]
+        >>> new_coordinate = Coordinate(2, 1)
+        >>> get_new_lowest_non_visited_per_line(old_lowest, new_coordinate)
+        Coordinate(4, 1)
+    """
+    old_coordinate = old_lowest[new_coordinate.y]
+    return new_coordinate if new_coordinate.x > old_coordinate.x else old_coordinate
+
 
 if __name__ == '__main__':
-    part_one_result = main(get_file_as_lines())
-    # part_one_result = main(get_specific_file_as_lines('sample_input.txt'))
-    print(f"Part one result:\n{part_one_result}")
-    # assert part_one_result ==
+    result = main(get_file_as_lines())
+    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    print(f"Part one result:\n{result}")
+    # assert result ==

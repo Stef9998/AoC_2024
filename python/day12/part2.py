@@ -7,7 +7,7 @@ def main(lines: list[str]) -> int:
 
 
 if __name__ == '__main__':
-    part_two_result = main(get_file_as_lines())
-    # part_two_result = main(get_specific_file_as_lines('sample_input.txt'))
-    print(f"Part one result:\n{part_two_result}")
-    # assert part_two_result ==
+    result = main(get_file_as_lines())
+    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    print(f"Part two result:\n{result}")
+    # assert result ==
