@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from typing import Callable
 
 import map_handling
-from file_handling import get_file_as_lines, get_specific_file_as_lines
-from map_handling import Coordinate, out_of_bounds, out_of_bounds_calculator
+from file_handling import get_file_as_lines
+from map_handling import Coordinate, out_of_bounds_calculator
 
 
 @dataclass(frozen=True)
@@ -11,12 +11,6 @@ class Plot:
     area: int
     perimeter: int
     coordinates: set[Coordinate]
-
-
-# @dataclass(frozen=True)
-# class PlotSpace:
-#     plot_type: str
-#     coordinate: Coordinate
 
 
 height: int = 0
@@ -37,41 +31,16 @@ def main(lines: list[str]) -> int:
     fence_cost = 0
     while non_visited:
         next_non_visited = non_visited.pop()
-        plot = fill_one_plot(lines, next_non_visited)
-        non_visited -= plot.coordinates
-        fence_cost += plot.area * plot.perimeter
+        visited = fill_one_plot(lines, next_non_visited)
+        non_visited -= visited
+        area = len(visited)
+        perimeter = get_plot_perimeter(visited)
+        fence_cost += area * perimeter
 
     return fence_cost
 
 
-# def get_plot_space(maze: list[str], coordinate: Coordinate) -> PlotSpace:
-#     """
-#     Get the plot space for a given coordinate in the maze.
-#
-#     Args:
-#         maze (list[str]): The maze represented as a list of strings.
-#         coordinate (Coordinate): The coordinate to check.
-#
-#     Returns:
-#         PlotSpace: The plot space at the given coordinate.
-#
-#     Examples:
-#         >>> maze = [
-#         ...     "AAAA",
-#         ...     "BBCD",
-#         ...     "BBCC",
-#         ...     "EEEC"
-#         ... ]
-#         >>> get_plot_space(maze, Coordinate(1, 1))
-#         PlotSpace(plot_type='B', coordinate=Coordinate(1, 1))
-#         >>> get_plot_space(maze, Coordinate(2, 0))
-#         PlotSpace(plot_type='A', coordinate=Coordinate(2, 0))
-#     """
-#     plot_type = maze[coordinate.y][coordinate.x]
-#     return PlotSpace(plot_type=plot_type, coordinate=coordinate)
-
-
-def fill_one_plot(maze: list[str], start_coordinate: Coordinate) -> Plot:
+def fill_one_plot(maze: list[str], start_coordinate: Coordinate) -> set[Coordinate]:
     """
     Recursively fills the plot starting from the given coordinate.
 
@@ -90,22 +59,16 @@ def fill_one_plot(maze: list[str], start_coordinate: Coordinate) -> Plot:
         ...     "EEEC"
         ... ]
         >>> initialize_globals(maze)
-        >>> result1 = Plot(area=6, perimeter=14, coordinates={Coordinate(0, 0), Coordinate(1, 0), Coordinate(2, 0), Coordinate(3, 0), Coordinate(0, 1), Coordinate(0, 2)})
+        >>> result1 = {Coordinate(0, 0), Coordinate(1, 0), Coordinate(2, 0), Coordinate(3, 0), Coordinate(0, 1), Coordinate(0, 2)}
         >>> fill_one_plot(maze, Coordinate(0, 0)) == result1
         True
-        >>> result2 = Plot(area=2, perimeter=6, coordinates={Coordinate(1, 1), Coordinate(1, 2)})
+        >>> result2 = {Coordinate(1, 1), Coordinate(1, 2)}
         >>> fill_one_plot(maze, Coordinate(1, 1)) == result2
         True
         >>> fill_one_plot(maze, Coordinate(3, 1))
-        Plot(area=1, perimeter=4, coordinates={Coordinate(3, 1)})
+        {Coordinate(3, 1)}
     """
-    visited = fill_plot_recursive(maze, start_coordinate, {start_coordinate})
-    area = len(visited)
-    perimeter = get_plot_perimeter(visited)
-
-    return Plot(area=area, perimeter=perimeter, coordinates=visited)
-
-    # return new found, and then the plot. (maybe integrate new found into the plot-class/-data)
+    return fill_plot_recursive(maze, start_coordinate, {start_coordinate})
 
 
 def get_plot_perimeter(visited):
@@ -150,6 +113,7 @@ def get_perimeter_for_coordinate(coordinate, visited):
     """
     no_of_surrounding_coordinates = sum(1 for surrounding_coordinate in surrounding_coordinates(coordinate) if surrounding_coordinate in visited)
     return 4 - no_of_surrounding_coordinates
+
 
 def fill_plot_recursive(maze: list[str], coordinate: Coordinate, visited: set[Coordinate]) -> set[Coordinate]:
     same_plot_coordinates = list(filter(
@@ -204,32 +168,6 @@ def coordinates_same_plot(maze: list[str], plot_coordinate: Coordinate, new_coor
 
 def get_plot_type(maze: list[str], coordinate: Coordinate) -> str:
     return maze[coordinate.y][coordinate.x]
-
-
-def get_new_lowest_non_visited_per_line(old_lowest: list[Coordinate], new_coordinate: Coordinate) -> Coordinate:
-    """
-    Updates the lowest non-visited coordinate for a specific line.
-
-    Args:
-        old_lowest (list[Coordinate]): The current list of lowest non-visited coordinates per line.
-        new_coordinate (Coordinate): The new coordinate to compare.
-
-    Returns:
-        Coordinate: The updated lowest non-visited coordinate for the line.
-
-    Examples:
-        >>> old_lowest = [Coordinate(0, 0), Coordinate(1, 1), Coordinate(2, 2)]
-        >>> new_coordinate = Coordinate(3, 1)
-        >>> get_new_lowest_non_visited_per_line(old_lowest, new_coordinate)
-        Coordinate(3, 1)
-
-        >>> old_lowest = [Coordinate(0, 0), Coordinate(4, 1), Coordinate(2, 2)]
-        >>> new_coordinate = Coordinate(2, 1)
-        >>> get_new_lowest_non_visited_per_line(old_lowest, new_coordinate)
-        Coordinate(4, 1)
-    """
-    old_coordinate = old_lowest[new_coordinate.y]
-    return new_coordinate if new_coordinate.x > old_coordinate.x else old_coordinate
 
 
 if __name__ == '__main__':
