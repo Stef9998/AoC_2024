@@ -1,5 +1,6 @@
 
 from enum import Enum
+from typing import Callable
 
 
 # type Coordinate = tuple[int, int]
@@ -54,6 +55,11 @@ class Coordinate:
 
 def out_of_bounds(position: Coordinate, maze_width: int, maze_height: int) -> bool:
     return position.x < 0 or position.x >= maze_width or position.y < 0 or position.y >= maze_height
+
+def out_of_bounds_calculator(maze_width: int, maze_height: int) -> Callable[[Coordinate], bool]:
+    def out_of_bounds_closure(position: Coordinate) -> bool:
+        return out_of_bounds(position, maze_width, maze_height)
+    return out_of_bounds_closure
 
 
 class Direction(Enum):
