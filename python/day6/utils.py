@@ -1,10 +1,5 @@
 from map_handling import Coordinate, Direction
 
-def turn_right(direction: Direction) -> Direction:
-    directions = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT]
-    current_index = directions.index(direction)
-    return directions[(current_index + 1) % len(directions)]
-
 
 def init_maze_findings(maze: list[str]):
     width = len(maze[0])

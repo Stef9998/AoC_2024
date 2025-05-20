@@ -1,4 +1,4 @@
-from day6.utils import init_maze_findings, turn_right
+from day6.utils import init_maze_findings
 from file_handling import get_file_as_lines
 from map_handling import Coordinate, Direction
 
@@ -38,7 +38,7 @@ def get_next_guard_state_with_obstacles(guard_position: Coordinate, guard_direct
     next_position = calc_next_position(guard_direction, guard_position)
     if next_position not in obstacle_positions:
         return next_position, guard_direction
-    return guard_position, turn_right(guard_direction)
+    return guard_position, guard_direction.turn_right()
 
 
 def calc_next_position(guard_direction: Direction, guard_position: Coordinate) -> Coordinate:
