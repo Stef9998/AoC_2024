@@ -70,6 +70,16 @@ class Direction(Enum):
     def y(self) -> int:
         return self.value[1]
 
+    def turn_right(self) -> 'Direction':
+        directions = list(Direction)
+        current_index = directions.index(self)
+        return directions[(current_index + 1) % len(directions)]
+
+    def turn_left(self) -> 'Direction':
+        directions = list(Direction)
+        current_index = directions.index(self)
+        return directions[(current_index - 1) % len(directions)]
+
 
 def get_map_dimensions(map_data: list[str]) -> tuple[int, int]:
     """
