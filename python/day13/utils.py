@@ -1,5 +1,7 @@
+from python.map_handling import Coordinate
 
-def get_input_as_blocks(lines: list[str]) -> list[tuple[tuple[int, int], tuple[int, int], tuple[int, int]]]:
+
+def get_input_as_blocks(lines: list[str]) -> list[tuple[Coordinate, Coordinate, Coordinate]]:
     """
     Extracts data blocks from the input lines in the specified format.
 
@@ -17,7 +19,7 @@ def get_input_as_blocks(lines: list[str]) -> list[tuple[tuple[int, int], tuple[i
     return extracted_data
 
 
-def data_strings_to_data(block) -> tuple[tuple[int, int], tuple[int, int], tuple[int, int]]:
+def data_strings_to_data(block) -> tuple[Coordinate, Coordinate, Coordinate]:
 
     data1 = tuple_data_str_to_int(block[0], remove_prefix_button)
     data2 = tuple_data_str_to_int(block[1], remove_prefix_button)
@@ -28,12 +30,11 @@ def data_strings_to_data(block) -> tuple[tuple[int, int], tuple[int, int], tuple
 
 def tuple_data_str_to_int(movement_input: tuple[str, str], prefix_remover):
     movement = prefix_remover(movement_input)
-    movement_data = tuple_string_to_int(movement)
-    return movement_data
+    return tuple_string_to_coordinate(movement)
 
 
-def tuple_string_to_int(movement):
-    return int(movement[0]), int(movement[1])
+def tuple_string_to_coordinate(movement) -> Coordinate:
+    return Coordinate(int(movement[0]), int(movement[1]))
 
 
 def remove_prefix_prize(movement_input):
