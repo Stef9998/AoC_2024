@@ -1,6 +1,10 @@
 from python.map_handling import Coordinate
 
 
+button_a_cost = 3
+button_b_cost = 1
+
+
 def get_input_as_blocks(lines: list[str]) -> list[tuple[Coordinate, Coordinate, Coordinate]]:
     """
     Extracts data blocks from the input lines in the specified format.
