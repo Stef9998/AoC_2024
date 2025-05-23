@@ -5,8 +5,9 @@ from part2 import main as part_two
 
 
 if __name__ == '__main__':
-    part_one_result = part_one(get_file_as_lines())
-    print(f"Part one result:\n{part_one_result}")
-    assert part_one_result == 36954
-    # part_two_result = part_two(get_file_as_lines())
-    # print(f"Part two result:\n{part_two_result}")
+    # part_one_result = part_one(get_file_as_lines())
+    # print(f"Part one result:\n{part_one_result}")
+    # assert part_one_result == 36954
+    part_two_result = part_two(get_file_as_lines())
+    print(f"Part two result:\n{part_two_result}")
+    assert part_two_result == 79352015273424
