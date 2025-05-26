@@ -10,4 +10,4 @@ if __name__ == '__main__':
     assert part_one_result == 219150360
     part_two_result = part_two(get_file_as_lines())
     print(f"Part two result:\n{part_two_result}")
-    # assert part_two_result ==
+    assert part_two_result == 8053
