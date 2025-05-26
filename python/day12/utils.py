@@ -1,7 +1,6 @@
 from typing import Callable
 
-import map_handling
-from map_handling import Coordinate, out_of_bounds_calculator
+from map_handling import Coordinate, out_of_bounds_calculator, Direction
 
 
 def fill_plot_recursive(maze: list[str], coordinate: Coordinate, visited: set[Coordinate], out_of_bounds: Callable[[Coordinate], bool]) -> set[Coordinate]:
@@ -18,7 +17,7 @@ def fill_plot_recursive(maze: list[str], coordinate: Coordinate, visited: set[Co
 
 
 def surrounding_coordinates(coordinate):
-    return (coordinate + direction.value for direction in map_handling.Direction)
+    return (coordinate + direction.value for direction in Direction)
 
 
 def coordinates_same_plot(maze: list[str], plot_coordinate: Coordinate, new_coordinate: Coordinate,
@@ -42,6 +41,7 @@ def coordinates_same_plot(maze: list[str], plot_coordinate: Coordinate, new_coor
         ...     "ABCC",
         ...     "EEEC"
         ... ]
+        >>> import map_handling
         >>> height, width = map_handling.get_map_dimensions(maze)
         >>> out_of_bounds = out_of_bounds_calculator(width, height)
         >>> coordinates_same_plot(maze, Coordinate(0, 0), Coordinate(1, 0), out_of_bounds)
@@ -81,6 +81,7 @@ def fill_one_plot(maze: list[str], start_coordinate: Coordinate, out_of_bounds: 
         ...     "ABCC",
         ...     "EEEC"
         ... ]
+        >>> import map_handling
         >>> height, width = map_handling.get_map_dimensions(maze)
         >>> out_of_bounds = out_of_bounds_calculator(width, height)
         >>> result1 = {Coordinate(0, 0), Coordinate(1, 0), Coordinate(2, 0), Coordinate(3, 0), Coordinate(0, 1), Coordinate(0, 2)}

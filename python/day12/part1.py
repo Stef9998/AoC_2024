@@ -1,11 +1,10 @@
-import map_handling
 from day12.utils import surrounding_coordinates, fill_one_plot
 from file_handling import get_file_as_lines
-from map_handling import Coordinate, out_of_bounds_calculator
+from map_handling import Coordinate, out_of_bounds_calculator, get_map_dimensions
 
 
 def main(lines: list[str]) -> int:
-    height, width = map_handling.get_map_dimensions(lines)
+    height, width = get_map_dimensions(lines)
     is_out_of_bounds = out_of_bounds_calculator(width, height)
 
     non_visited = {Coordinate(x, y) for y in range(height) for x in range(width)}
