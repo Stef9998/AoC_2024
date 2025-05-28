@@ -19,7 +19,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 12  | \[x\]  | \[ \]   |
 | 13  | \[x\]  | \[ \]   |
 | 14  | \[x\]  | \[ \]   |
-| 15  | \[ \]  | \[ \]   |
+| 15  | \[/\]  | \[ \]   |
 | 16  | \[ \]  | \[ \]   |
 | 17  | \[ \]  | \[ \]   |
 | 18  | \[ \]  | \[ \]   |
