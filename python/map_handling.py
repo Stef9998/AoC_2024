@@ -4,55 +4,6 @@ from typing import Callable
 from dataclasses import dataclass
 
 
-@dataclass
-class Map:
-    width: int
-    height: int
-
-    def __init__(self, width: int, height: int, **optional_information):
-        self.width = width
-        self.height = height
-        for key, value in optional_information.items():
-            setattr(self, key, value)
-
-    def __repr__(self) -> str:
-        attributes = [f"{key}={value!r}" for key, value in self.__dict__.items()]
-        return "{}({})".format(type(self).__name__, ", ".join(attributes))
-
-
-_map_instance: 'Map' = None  # Module-level variable for singleton instance
-
-
-def get_map_instance(*args, **kwargs) -> 'Map':
-    """
-    Returns the singleton instance of the Map class. If it doesn't exist, it creates one.
-    """
-    global _map_instance
-    if _map_instance is None:
-        _map_instance = Map(*args, **kwargs)
-    return _map_instance
-
-def initialise_map(width: int, height: int, **optional_information) -> 'Map':
-    """
-    Initializes the map instance with the given width, height, and optional information.
-    If the map instance already exists, it raises an error.
-
-    Args:
-        width (int): The width of the map.
-        height (int): The height of the map.
-        **optional_information: Additional optional information about the map.
-
-    Returns:
-        Map: The initialized map instance.
-    """
-    global _map_instance
-    if _map_instance is not None:
-        raise ValueError("Map instance already initialized.")
-    _map_instance = Map(width, height, **optional_information)
-    return _map_instance
-
-
-# TODO: Test if Coordinate class works the same as tuple[int, int]
 class Coordinate:
     __slots__ = ('x', 'y')  # Restrict attributes to x and y for immutability
 
@@ -103,6 +54,56 @@ class Coordinate:
         return f"Coordinate({self.x}, {self.y})"
 
 
+@dataclass
+class Map:
+    width: int
+    height: int
+    out_of_bounds_calculator: Callable[[Coordinate], bool]
+
+    def __init__(self, width: int, height: int, **optional_information):
+        self.width = width
+        self.height = height
+        for key, value in optional_information.items():
+            setattr(self, key, value)
+        self.out_of_bounds_calculator = out_of_bounds_calculator(self.width, self.height)
+
+    def __repr__(self) -> str:
+        attributes = [f"{key}={value!r}" for key, value in self.__dict__.items()]
+        return "{}({})".format(type(self).__name__, ", ".join(attributes))
+
+
+_map_instance: 'Map' = None  # Module-level variable for singleton instance
+
+
+def get_map_instance(*args, **kwargs) -> 'Map':
+    """
+    Returns the singleton instance of the Map class. If it doesn't exist, it creates one.
+    """
+    global _map_instance
+    if _map_instance is None:
+        _map_instance = Map(*args, **kwargs)
+    return _map_instance
+
+def initialise_map(width: int, height: int, **optional_information) -> 'Map':
+    """
+    Initializes the map instance with the given width, height, and optional information.
+    If the map instance already exists, it raises an error.
+
+    Args:
+        width (int): The width of the map.
+        height (int): The height of the map.
+        **optional_information: Additional optional information about the map.
+
+    Returns:
+        Map: The initialized map instance.
+    """
+    global _map_instance
+    if _map_instance is not None:
+        raise ValueError("Map instance already initialized.")
+    _map_instance = Map(width, height, **optional_information)
+    return _map_instance
+
+
 def out_of_bounds(position: Coordinate, maze_width: int, maze_height: int) -> bool:
     return position.x < 0 or position.x >= maze_width or position.y < 0 or position.y >= maze_height
 
@@ -138,6 +139,11 @@ class Direction(Enum):
 
     def __str__(self) -> str:
         return f"{self.name.capitalize()} {self.value}"
+
+
+def get_surrounding_coordinates(coordinate: Coordinate) -> tuple[Coordinate, Coordinate, Coordinate, Coordinate]:
+    return (coordinate + Direction.RIGHT.value, coordinate + Direction.DOWN.value,
+            coordinate + Direction.LEFT.value, coordinate + Direction.UP.value)
 
 
 def get_map_dimensions(map_data: list[str]) -> tuple[int, int]:
