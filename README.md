@@ -22,7 +22,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 15  | \[/\]  | \[ \]   |
 | 16  | \[x\]  | \[ \]   |
 | 17  | \[~x\] | \[ \]   |
-| 18  | \[ \]  | \[ \]   |
+| 18  | \[/\]  | \[ \]   |
 | 19  | \[x\]  | \[ \]   |
 | 20  | \[ \]  | \[ \]   |
 | 21  | \[ \]  | \[ \]   |
