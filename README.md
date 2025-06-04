@@ -21,7 +21,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 14  | \[x\]  | \[ \]   |
 | 15  | \[/\]  | \[ \]   |
 | 16  | \[x\]  | \[ \]   |
-| 17  | \[ \]  | \[ \]   |
+| 17  | \[~x\] | \[ \]   |
 | 18  | \[ \]  | \[ \]   |
 | 19  | \[ \]  | \[ \]   |
 | 20  | \[ \]  | \[ \]   |
