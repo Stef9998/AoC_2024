@@ -1,7 +1,10 @@
 import dataclasses
+from functools import lru_cache, cache
 from dataclasses import dataclass
 from enum import Enum
 
+
+number_of_instructions = 8
 
 class DataIO(Enum):
     Operand = 0
@@ -16,7 +19,7 @@ class Register(Enum):
     IP = 3
 
 
-@dataclass
+@dataclass(frozen=True)
 class ComputerState:
     A: int
     B: int
@@ -44,11 +47,14 @@ class OperandType(Enum):
     LITERAL = 1
     COMBO = 2
 
-    def get_operant_value_location(self):
+    @lru_cache(3)
+    def get_operand_value_location(self):
+        @lru_cache(number_of_instructions)
         def get_literal(operand: int) -> DataIO:
             assert 0 <= operand < 8
             return DataIO.Operand
 
+        @lru_cache(number_of_instructions)
         def get_combo_input_location(operand: int) -> None | Register | DataIO:
             assert 0 <= operand < 8
             if operand <= 3:
@@ -83,10 +89,13 @@ class Instruction(Enum):
     def __init__(self, op_code: int, operand_type: OperandType):
         self.op_code = op_code
         self.operand_type = operand_type
+        assert len(type(self)) != number_of_instructions
 
-    @classmethod
-    def get_by_op_code(cls, op_code: int):
-        for instruction in cls:
+
+    @staticmethod
+    @lru_cache(number_of_instructions)
+    def get_by_op_code(op_code: int):
+        for instruction in Instruction:
             if instruction.op_code == op_code:
                 return instruction
         raise ValueError(f"No Instruction found with op_code: {op_code}")
@@ -94,22 +103,27 @@ class Instruction(Enum):
 
 class InstructionFunctions:
     @staticmethod
+    @lru_cache()
     def division_by_power_of_two(numerator: int, denominator: int) -> int:
         return numerator >> denominator
 
     @staticmethod
+    @lru_cache()
     def bitwise_xor(first: int, second: int) -> int:
         return first ^ second
 
     @staticmethod
+    @lru_cache()
     def modulo(dividend: int, divider: int) -> int:
         return dividend % divider
 
     @staticmethod
+    @lru_cache()
     def modulo8(dividend: int, not_used: int = 8) -> int:
         return InstructionFunctions.modulo(dividend, 8)
 
     @staticmethod
+    @lru_cache()
     def return_parameter(parameter: int, not_used: int = 0) -> int:
         return parameter
 
@@ -125,6 +139,7 @@ class InstructionFunctions:
     }
 
     @classmethod
+    @lru_cache(number_of_instructions)
     def get_instruction_function(cls, instruction: Instruction) -> callable:
         return cls.instruction_function_mapper[instruction]
 
@@ -140,6 +155,7 @@ class InstructionFunctions:
     }
 
     @classmethod
+    @lru_cache(number_of_instructions)
     def get_instruction_output(cls, instruction: Instruction):  # TODO rename goal name
         return cls.instruction_output_mapper[instruction]
 
@@ -155,6 +171,7 @@ class InstructionFunctions:
     }
 
     @classmethod
+    @lru_cache(number_of_instructions)
     def get_instruction_input(cls, instruction: Instruction):
         return cls.instruction_input_mapper[instruction]
 

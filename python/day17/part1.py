@@ -7,13 +7,13 @@ from file_handling import get_specific_file_as_lines, get_file_as_lines
 def main(lines: list[str]) -> str:
 
     initial_state, program_codes = parse_input(lines)
-    operation_codes = list(program_codes)
+    operation_codes = tuple(program_codes)
 
     # output = solve_with_while(CpuMachine(initial_state, operation_codes))
     output = solve_recursively(initial_state, operation_codes)
     return ','.join(str(num) for num in output)
 
-def solve_recursively(initial_state: ComputerState, operation_codes: list[int]) -> list[int]:
+def solve_recursively(initial_state: ComputerState, operation_codes: tuple[int, ...]) -> list[int]:
 
     def recursive_function(state: ComputerState) -> list[int]:
         if does_program_halt(state.IP, operation_codes):

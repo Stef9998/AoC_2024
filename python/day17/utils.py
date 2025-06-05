@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Optional
 
 from day17.computer_architecture import ComputerState
@@ -22,13 +23,14 @@ class CpuMachine:
     def calculate_next_step(self) -> Optional[int]:
         if self.state.IP + 1 >= len(self.operation_codes):
             raise ValueError("Instruction Pointer can't be outside of OP-Codes Array")
-        self.state, output = get_next_state(self.state, get_next_instruction(self.operation_codes, self.state.IP))
+        self.state, output = get_next_state(self.state, get_next_instruction(tuple(self.operation_codes), self.state.IP))
         return output
 
     def does_program_halt(self) -> bool:
         return does_program_halt(self.state.IP, self.operation_codes)
 
 
+@lru_cache()
 def does_program_halt(instruction_pointer, operation_codes) -> bool:
     if instruction_pointer + 1 >= len(operation_codes):
         return True
