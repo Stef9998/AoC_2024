@@ -1,3 +1,4 @@
+import itertools
 from functools import lru_cache
 from typing import Optional
 
@@ -12,6 +13,8 @@ def main(lines: list[str]) -> int:
     operation_codes = tuple(program_codes)
 
     register_a = 0
+    # register_a = 2_682_000_000
+
     while True:
         if register_a == 320_000:
             break
@@ -21,7 +24,28 @@ def main(lines: list[str]) -> int:
         if solve_recursively(modified_state, operation_codes):
             break
         register_a += 1
+
+    # while True:
+    #     modified_state = initial_state.get_with_modified_register(Register.A, register_a)
+    #     if solve_recursively(modified_state, operation_codes):
+    #         break
+    #     register_a += 1
+
+    # _result = next(
+    #     (a for a in itertools.count(register_a) if
+    #      solve_recursively(initial_state.get_with_modified_register(Register.A, a), operation_codes)
+    #      or a == 320_000),
+    #     None
+    # )
+    # return _result
+
     return register_a
+
+def solver_to_parallelize(initial_state: ComputerState, register_a: int, operation_codes) -> Optional[int]:
+        modified_state = initial_state.get_with_modified_register(Register.A, register_a)
+        if solve_recursively(modified_state, operation_codes):
+            return register_a
+        return None
 
 def solve_recursively(initial_state: ComputerState, operation_codes: tuple[int, ...]) -> bool:
 
@@ -50,12 +74,12 @@ def halt_program(operation_codes, op_index_to_output, state_ip) -> Optional[bool
 
 
 if __name__ == '__main__':
-
     import time
 
     result = main(get_specific_file_as_lines('sample_input_p2.txt'))
     print(f"Sample one result:\n{result}")
     assert result == 117440
+    # exit(0)
 
     start_time = time.time()
     result = main(get_file_as_lines())

@@ -5,7 +5,14 @@ from typing import Optional
 from day17.computer_architecture import ComputerState, Register, DataIO, Instruction, InstructionFunctions
 
 
+# TODO cache:
+#  - split in the beginning state up, and then use a, b, c, ip only which needed.
+#  - that way I might be able to cache more
+
+
+# @lru_cache(None)
 def get_next_state(state: ComputerState, operation: tuple[int, int]) -> tuple[ComputerState, Optional[int]]:
+    # print(get_next_state.cache_info())
     op_code, raw_operand = operation
 
     # Architecture Values (Which Input/Output location, ...)
@@ -32,6 +39,8 @@ def build_pipeline(op_code):
     output_location = InstructionFunctions.get_instruction_output(instruction)
     return input_locations, operation_function, operation_value_location_calculator, output_location
 
+
+# @lru_cache(None)
 def get_operand_value(input_location, operand, state):
     if input_location is DataIO.Operand:
         return operand
@@ -41,6 +50,15 @@ def get_operand_value(input_location, operand, state):
         raise ValueError("Wrong input location. Needs to be Register or Operand!")
 
 
+# # @lru_cache(None)
+# def get_instruction_input_values(input_locations, operand_value, state) -> tuple[int, int]:
+#     return (operand_value if input_locations[0] == DataIO.Operand else
+#             state.get_register_value(input_locations[0]),
+#             operand_value if input_locations[1] == DataIO.Operand else
+#             state.get_register_value(input_locations[1]) if isinstance(input_locations[1], Register) else 0)
+
+
+# @lru_cache(None)
 def get_instruction_input_values(input_locations, operand_value, state) -> tuple[int, int]:
     return (operand_value, 0) if input_locations[0] == DataIO.Operand else\
         (state.get_register_value(input_locations[0]),
@@ -84,6 +102,7 @@ def get_pipe_abc_function(output_location: Register | DataIO ) -> Callable[[int,
     else:
         return lambda output_value, state_a, state_b, state_c: (state_a, state_b, state_c)
 
+# @cache
 def get_new_ip(output_value: int, output_location: Register | DataIO, state_ip, state_a_not_zero):
     if output_location is Register.IP and state_a_not_zero:
         return output_value
