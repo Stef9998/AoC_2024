@@ -7,18 +7,9 @@ from file_handling import get_file_as_lines, get_specific_file_as_lines
 
 
 def main(lines: list[str]) -> int:
-    buyers = []
-    for buyer_secret_number in lines:
-        buyers.append(one_buyer(int(buyer_secret_number)))
-    for change_sequence in possible_change_sequence():
-        print(change_sequence)
+    buyers = [one_buyer(int(buyer_secret_number)) for buyer_secret_number in lines]
 
-        print(sum(map(lambda buyer: buyer.get(change_sequence, 0), buyers)))
-
-        if change_sequence == (-2, 1, -1, 3):
-            exit(0)
-
-    return 0
+    return max(sum(map(lambda buyer: buyer.get(change_seq, 0), buyers)) for change_seq in possible_change_sequence())
 
 
 def possible_change_sequence() -> Iterator[tuple[int, int, int, int]]:
@@ -170,17 +161,12 @@ if __name__ == '__main__':
     # benchmark()
     # exit(0)
 
-    # foo = one_buyer(123)
-    # print(foo)
-    # exit(0)
-
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(get_specific_file_as_lines('sample_input_p2.txt'))
     print(f"Sample result:\n{result}")
-    # assert result ==
-    exit(0)
+    assert result == 23
 
     start_time = time.time()
     result = main(get_file_as_lines())
     print(f"Part two result:\n{result}")
-    # assert result ==
+    assert result == 2152
     print(f"Time taken: {time.time() - start_time:.2f} seconds")
