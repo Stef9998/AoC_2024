@@ -26,7 +26,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 19  | \[x\]  | \[ \]   |
 | 20  | \[ \]  | \[ \]   |
 | 21  | \[ \]  | \[ \]   |
-| 22  | \[ \]  | \[ \]   |
+| 22  | \[x\]  | \[ \]   |
 | 23  | \[ \]  | \[ \]   |
 | 24  | \[ \]  | \[ \]   |
 | 25  | \[ \]  | \[ \]   |
@@ -34,6 +34,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 ## Learnings / Interesting Findings
 
 ### Python
+
 Day 4 - Part 1
 - Wanted to only use one pass through the input file
 - Used a closure (for the first time) to keep track of the current state of the last line
@@ -41,3 +42,6 @@ Day 4 - Part 1
 
 Day 4 - Part 2
   - really nice, clean functional solution
+
+Day 22 - Part 2
+- solved with iterators
