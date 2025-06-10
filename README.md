@@ -28,7 +28,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 21  | \[x\]  | \[ \]   |
 | 22  | \[x\]  | \[ \]   |
 | 23  | \[x\]  | \[ \]   |
-| 24  | \[ \]  | \[ \]   |
+| 24  | \[/\]  | \[ \]   |
 | 25  | \[ \]  | \[ \]   |
 
 ## Learnings / Interesting Findings
