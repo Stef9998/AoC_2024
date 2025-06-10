@@ -29,7 +29,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 22  | \[x\]  | \[ \]   |
 | 23  | \[x\]  | \[ \]   |
 | 24  | \[ \]  | \[ \]   |
-| 25  | \[ \]  | \[ \]   |
+| 25  | \[/\]  | \[ \]   |
 
 ## Learnings / Interesting Findings
 
