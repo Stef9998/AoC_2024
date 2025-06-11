@@ -17,7 +17,7 @@ calculateTotalSimularity firstList secondList =
 
 main :: IO ()
 main = do
-  (firstList, secondList) <- readAndParseFile "day1.txt"
+  (firstList, secondList) <- readAndParseFile "day1/input.txt"
   let totalSimularity = calculateTotalSimularity firstList secondList
   putStrLn ("Result: " ++ show totalSimularity)
   unless (totalSimularity == 23046913) $

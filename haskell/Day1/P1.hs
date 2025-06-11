@@ -17,7 +17,7 @@ calculateTotalDifference firstList secondList =
 
 main :: IO ()
 main = do
-  (firstList, secondList) <- readAndParseFile "day1.txt"
+  (firstList, secondList) <- readAndParseFile "day1/input.txt"
   let totalDifference = calculateTotalDifference firstList secondList
   print totalDifference
 
