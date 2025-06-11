@@ -1,4 +1,5 @@
-from file_handling import get_specific_file_as_lines, get_file_as_lines
+import file_handling
+from file_handling import input_as_lines
 import day25.utils as utils
 
 
@@ -28,12 +29,12 @@ def key_might_fit_lock(lock: tuple[int, int, int, int, int], key: tuple[int, int
 if __name__ == '__main__':
     import time
 
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines('sample.txt'))
     print(f"Sample one result:\n{result}")
     assert result == 3
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part one result:\n{result}")
     assert result == 3671
     print(f"Time taken: {time.time() - start_time:.3f} seconds")

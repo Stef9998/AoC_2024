@@ -1,11 +1,10 @@
 from day17.computer_architecture import ComputerState
 from day17.computer_cpu import get_next_state, get_next_instruction
 from day17.utils import parse_input, CpuMachine, does_program_halt
-from file_handling import get_specific_file_as_lines, get_file_as_lines
+from file_handling import input_as_lines
 
 
 def main(lines: list[str]) -> str:
-
     initial_state, program_codes = parse_input(lines)
     operation_codes = list(program_codes)
 
@@ -13,8 +12,8 @@ def main(lines: list[str]) -> str:
     output = solve_recursively(initial_state, operation_codes)
     return ','.join(str(num) for num in output)
 
-def solve_recursively(initial_state: ComputerState, operation_codes: list[int]) -> list[int]:
 
+def solve_recursively(initial_state: ComputerState, operation_codes: list[int]) -> list[int]:
     def recursive_function(state: ComputerState) -> list[int]:
         if does_program_halt(state.IP, operation_codes):
             return []
@@ -23,6 +22,7 @@ def solve_recursively(initial_state: ComputerState, operation_codes: list[int]) 
         return found_output + recursive_function(new_state)
 
     return recursive_function(initial_state)
+
 
 def solve_with_while(cpu) -> list[int]:
     output: list[int] = []
@@ -34,15 +34,14 @@ def solve_with_while(cpu) -> list[int]:
 
 
 if __name__ == '__main__':
-
     import time
 
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines('sample.txt'))
     print(f"Sample one result:\n{result}")
     assert result == "4,6,3,5,6,3,5,2,1,0"
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part one result:\n{result}")
     assert result == "1,5,0,3,7,3,0,3,1"
     print(f"Time taken: {time.time() - start_time:.2f} seconds")

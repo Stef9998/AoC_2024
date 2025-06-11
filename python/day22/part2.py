@@ -3,7 +3,7 @@ from collections.abc import Iterator
 from functools import lru_cache
 
 from day22.utils import next_secret_number
-from file_handling import get_file_as_lines, get_specific_file_as_lines
+from file_handling import input_as_lines, input_as_lines
 
 
 def main(lines: list[str]) -> int:
@@ -161,12 +161,12 @@ if __name__ == '__main__':
     # benchmark()
     # exit(0)
 
-    result = main(get_specific_file_as_lines('sample_input_p2.txt'))
+    result = main(input_as_lines('sample_p2.txt'))
     print(f"Sample result:\n{result}")
     assert result == 23
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part two result:\n{result}")
     assert result == 2152
     print(f"Time taken: {time.time() - start_time:.2f} seconds")

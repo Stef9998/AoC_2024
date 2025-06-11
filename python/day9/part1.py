@@ -1,12 +1,10 @@
 from collections import deque
 
-from file_handling import get_file_as_lines
-
+from file_handling import input_as_lines
 from utils import get_information
 
 
 def main(lines: list[str]) -> int:
-
     data, holes = get_information(lines)
 
     calculate_next_count = next_count_calculator()
@@ -34,7 +32,6 @@ def move_data_into_holes(og_data, og_holes):
         if new_end_data is not None:
             data.append(new_end_data)
     return return_data
-
 
 
 def fill_next_hole(hole_length, end_data):
@@ -65,19 +62,22 @@ def fill_next_hole(hole_length, end_data):
 
 def next_count_calculator():
     index = 0
+
     def calc_next_count_closure(next_number):
         nonlocal index
-        old_index  = index
+        old_index = index
         next_index = index + next_number[0]
 
         index = next_index
 
         return sum(i * next_number[1] for i in range(old_index, next_index))
+
     return calc_next_count_closure
 
+
 if __name__ == '__main__':
-    part_one_result = main(get_file_as_lines())
-    # part_one_result = main(get_specific_file_as_lines('sample_input.txt'))
+    part_one_result = main(input_as_lines())
+    # part_one_result = main(input_as_lines('sample.txt'))
     print(f"Part one result:\n{part_one_result}")
     assert part_one_result == 6385338159127
     # assert part_one_result == 1928

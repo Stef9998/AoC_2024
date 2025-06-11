@@ -1,9 +1,7 @@
 import re
 
-from python.file_handling import get_file_as_lines
 
-def get_input_as_lists():
-    data = get_file_as_lines()
+def get_input_as_lists(data):
     list1, list2 = get_numbers_as_lists(data)
     return list1, list2
 

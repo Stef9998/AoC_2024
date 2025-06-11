@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from day21.keypad import PadType
 from day21.utils import get_possible_keys, movements_from_keys, get_number_from_numpad
-from file_handling import get_file_as_lines
+from file_handling import input_as_lines
 
 
 def main(lines: list[str]) -> int:
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     import time
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part one result:\n{result}")
     assert result == 129551515895690
     print(f"Time taken: {time.time() - start_time:.2f} seconds")

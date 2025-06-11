@@ -4,7 +4,6 @@ from map_handling import Coordinate
 
 
 def main(lines: list[str]) -> int:
-
     maze_findings = init_maze_findings(lines)
 
     maze_width = maze_findings["maze_width"]

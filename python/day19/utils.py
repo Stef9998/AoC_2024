@@ -1,6 +1,6 @@
 from enum import Enum
 
-from file_handling import get_specific_file_as_lines, get_file_as_lines
+from file_handling import input_as_lines, input_as_lines
 
 
 class StripeColor(Enum):
@@ -56,5 +56,5 @@ def populate_dict_per_key(towel_options: list[str]):
 
 
 if __name__ == '__main__':
-    # parse_lines(get_specific_file_as_lines("sample_input.txt"))
-    parse_lines(get_file_as_lines())
+    # parse_lines(input_as_lines("sample.txt"))
+    parse_lines(input_as_lines())

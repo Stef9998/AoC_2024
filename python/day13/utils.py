@@ -1,6 +1,5 @@
 from python.map_handling import Coordinate
 
-
 button_a_cost = 3
 button_b_cost = 1
 
@@ -24,7 +23,6 @@ def get_input_as_blocks(lines: list[str]) -> list[tuple[Coordinate, Coordinate, 
 
 
 def data_strings_to_data(block) -> tuple[Coordinate, Coordinate, Coordinate]:
-
     data1 = tuple_data_str_to_int(block[0], remove_prefix_button)
     data2 = tuple_data_str_to_int(block[1], remove_prefix_button)
     data3 = tuple_data_str_to_int(block[2], remove_prefix_prize)
@@ -50,7 +48,7 @@ def remove_prefix_button(movement_input):
 
 
 def lines_to_data_strings(block) -> tuple:
-    data = [0,0,0]
+    data = [0, 0, 0]
     if not is_block_right_format(block):
         raise ValueError(f"Invalid block format: {block}")
     x, y = block[0].split(":")[1].strip().split(", ")
@@ -71,6 +69,7 @@ def is_block_right_format(block):
         raise ValueError(f"Invalid line 3 format: {block[2]}")
     return True
 
+
 def split_into_blocks(lines: list[str]) -> list[tuple[str, str, str]]:
     """
     Splits the input lines into blocks of three lines each.
@@ -79,5 +78,5 @@ def split_into_blocks(lines: list[str]) -> list[tuple[str, str, str]]:
     :return: List of blocks, where each block is a tuple of three lines.
     """
     non_empty_lines = [line.strip() for line in lines if line.strip()]
-    return [(non_empty_lines[i], non_empty_lines[i+1], non_empty_lines[i+2]) for i in range(0, len(non_empty_lines), 3)]
-
+    return [(non_empty_lines[i], non_empty_lines[i + 1], non_empty_lines[i + 2]) for i in
+            range(0, len(non_empty_lines), 3)]

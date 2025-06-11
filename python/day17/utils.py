@@ -39,7 +39,7 @@ if __name__ == '__main__':
     import time
 
     start_time = time.time()
-    # result = function_(get_file_as_lines())
+    # result = function_(input_as_lines())
     # print(f"Part one result:\n{result}")
     print(f"Time taken: {time.time() - start_time:.3f} seconds")
 

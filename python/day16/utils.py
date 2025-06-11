@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Iterator
 
-from file_handling import get_file_as_lines
+from file_handling import input_as_lines
 from map_handling import get_map_dimensions, Coordinate, Direction
 
 DOCTEST_MAP: list[str] = [
@@ -262,7 +262,8 @@ def get_start_directions(map_data, coordinate: Coordinate) -> Iterator[Direction
     return filter(can_step_on_surrounding_tile, Direction)
 
 
-def get_next_possible_directions(coordinate: Coordinate, direction: Direction, map_data, visited: set[Coordinate]) -> Iterator[Direction]:
+def get_next_possible_directions(coordinate: Coordinate, direction: Direction, map_data, visited: set[Coordinate]) ->\
+        Iterator[Direction]:
     can_step_on_surrounding_tile = lambda _direction: can_step_on_tile(coordinate + _direction.value, map_data, visited)
     return filter(can_step_on_surrounding_tile, [direction, direction.turn_left(), direction.turn_right()])
 
@@ -307,6 +308,6 @@ if __name__ == '__main__':
     import time
 
     start_time = time.time()
-    result = get_map_information(get_file_as_lines())
+    result = get_map_information(input_as_lines())
     print(f"Part one result:\n{result}")
     print(f"Time taken: {time.time() - start_time:.3f} seconds")

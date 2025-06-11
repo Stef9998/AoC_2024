@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from day21.keypad import PadType
 from day21.utils import get_number_from_numpad, get_possible_keys, movements_from_keys
-from file_handling import get_specific_file_as_lines, get_file_as_lines
+from file_handling import input_as_lines, input_as_lines
 
 
 def main(lines: list[str]) -> int:
@@ -46,12 +46,12 @@ def d3_calc(move: tuple[str, str]):
 if __name__ == '__main__':
     import time
 
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines('sample.txt'))
     print(f"Sample result:\n{result}")
     assert result == 126384
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part one result:\n{result}")
     assert result == 105458
     print(f"Time taken: {time.time() - start_time:.2f} seconds")

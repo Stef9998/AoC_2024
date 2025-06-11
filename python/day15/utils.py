@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from enum import Enum
 
-from python.file_handling import get_specific_file_as_lines
+from python.file_handling import input_as_lines
 from python.map_handling import Direction, Coordinate
 
 
@@ -35,7 +35,6 @@ class Tile(Enum):
             raise ValueError(f"Invalid tile character: {char}")
 
 
-
 def main(lines: list[str]) -> tuple[dict[Tile, set[Coordinate]], Iterator[Direction]]:
     map_string, movement_string = split_input_data(lines)
 
@@ -49,6 +48,7 @@ def main(lines: list[str]) -> tuple[dict[Tile, set[Coordinate]], Iterator[Direct
     #  then I can easier test for the coordinates line of sight of the robot
 
     return tile_sets, movements
+
 
 def main_2d_array(lines: list[str]) -> tuple[list[list[Tile]], Coordinate, Iterator[Direction]]:
     """
@@ -126,6 +126,7 @@ def movement_char_to_direction(char: str) -> Direction:
     else:
         raise ValueError(f"Invalid movement character: {char}")
 
+
 if __name__ == '__main__':
-    # result = main(get_file_as_lines())
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    # result = main(input_as_lines())
+    result = main(input_as_lines('sample.txt'))

@@ -2,7 +2,7 @@ import sys
 
 from day16.utils import Tile, get_map_information, get_next_turn_direction, is_straight_no_branch, \
     branch_factor, get_start_directions, get_next_possible_directions, get_tile, print_map
-from file_handling import get_file_as_lines, get_specific_file_as_lines
+from file_handling import input_as_lines
 from map_handling import Coordinate, Direction
 
 
@@ -99,10 +99,10 @@ def recursive_closure(map_data):
                 if current_path_length + 1000 > lowest_found_path:
                     return
                 recursive_find(current_coordinate, new_direction, current_visited,
-                                                      current_path_length + 1000, branch_lowest)
+                               current_path_length + 1000, branch_lowest)
             else:
                 recursive_find(current_coordinate, new_direction, current_visited,
-                                                      current_path_length, branch_lowest)
+                               current_path_length, branch_lowest)
         return
 
     return start_recursion
@@ -111,15 +111,15 @@ def recursive_closure(map_data):
 if __name__ == '__main__':
     import time
 
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines('sample.txt'))
     print(f"Sample one result:\n{result}")
     assert result == 7036
-    result = main(get_specific_file_as_lines('sample2_input.txt'))
+    result = main(input_as_lines('sample2_input.txt'))
     print(f"Sample two result:\n{result}")
     assert result == 11048
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part one result:\n{result}")
     assert result == 143580
     print(f"Time taken: {time.time() - start_time:.2f} seconds")

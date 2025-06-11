@@ -1,10 +1,11 @@
 from typing import Optional
 
-from python.file_handling import get_file_as_lines, get_specific_file_as_lines
+from python.file_handling import input_as_lines, input_as_lines
 from python.map_handling import initialise_map, get_map_dimensions, Coordinate, Direction
 from python.day15.utils import main as get_input_data
 from python.day15.utils import main_2d_array as get_input_2d_array
 from python.day15.utils import Tile
+
 
 # TODO: Funny Idea: Make use of fact, that some boxes will never be movable again. (implementation 2)
 #  This will happen, if a box is surrounded by walls on two sides that are not across from each other.
@@ -14,7 +15,6 @@ from python.day15.utils import Tile
 #   Other solution would be to mark the boxes (or tiles in general, as walls are always unmovable) as unmovable.
 
 def main(lines: list[str]) -> int:
-
     map_data, robot_coordinate, movements = get_input_2d_array(lines)
 
     for movement in movements:
@@ -26,7 +26,9 @@ def main(lines: list[str]) -> int:
             map_data[next_coordinate.y][next_coordinate.x] = Tile.EMPTY
             robot_coordinate = next_coordinate
 
-    summed_gps_value = sum(100*y + x for y, row in enumerate(map_data) for x, tile in enumerate(row) if tile == Tile.BOX)
+    summed_gps_value = sum(
+        100 * y + x for y, row in enumerate(map_data) for x, tile in enumerate(row) if tile == Tile.BOX
+    )
 
     return summed_gps_value
 
@@ -51,6 +53,7 @@ def next_empty_tile(map_data: list[list[Tile]], robot_coordinate: Coordinate, di
             return None
         robot_coordinate = next_coordinate
 
+
 def print_map(map_data: list[list[Tile]], robot_coordinate: Coordinate) -> None:
     """
     Prints the map data to the console, highlighting the robot's position.
@@ -68,7 +71,7 @@ def print_map(map_data: list[list[Tile]], robot_coordinate: Coordinate) -> None:
 
 
 if __name__ == '__main__':
-    # result = main(get_file_as_lines())
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    # result = main(input_as_lines())
+    result = main(input_as_lines('sample.txt'))
     print(f"Part one result:\n{result}")
     # assert result ==

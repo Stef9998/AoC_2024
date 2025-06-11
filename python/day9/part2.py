@@ -1,9 +1,9 @@
-from python.file_handling import get_file_as_lines
+from python.file_handling import input_as_lines
 
 from utils import get_more_information
 
-def main(lines: list[str]) -> int:
 
+def main(lines: list[str]) -> int:
     data, holes = get_more_information(lines)
 
     new_numbers = get_moved_data(data, holes)
@@ -12,7 +12,6 @@ def main(lines: list[str]) -> int:
 
 
 def get_moved_data(og_data, og_holes):
-
     holes = og_holes
     new_numbers = []
     for og_number in reversed(og_data):
@@ -20,6 +19,7 @@ def get_moved_data(og_data, og_holes):
         new_numbers.append(new_number)
 
     return new_numbers
+
 
 def move_number_to_hole(holes: list, number):
     """
@@ -71,7 +71,7 @@ def get_moved_number_new_hole(holes, number):
     number_length = number[0]
     number_location = number[2]
     for i, hole in enumerate(holes):
-        #TODO refactor this into function
+        # TODO refactor this into function
         hole_length = hole[0]
         hole_location = hole[1]
         if number_location < hole_location:
@@ -108,6 +108,6 @@ def calc_next_count(number):
 
 
 if __name__ == '__main__':
-    part_two_result = main(get_file_as_lines())
+    part_two_result = main(input_as_lines())
     print(f"Part one result:\n{part_two_result}")
     assert part_two_result == 6415163624282

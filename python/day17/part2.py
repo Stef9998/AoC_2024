@@ -1,11 +1,10 @@
 from day17.computer_architecture import ComputerState, Register
 from day17.computer_cpu import get_next_state, get_next_instruction
 from day17.utils import parse_input, does_program_halt
-from file_handling import get_specific_file_as_lines, get_file_as_lines
+from file_handling import input_as_lines
 
 
 def main(lines: list[str]) -> str:
-
     initial_state, program_codes = parse_input(lines)
     operation_codes = list(program_codes)
 
@@ -41,11 +40,11 @@ if __name__ == '__main__':
 
     import time
 
-    result = main(get_specific_file_as_lines('sample_input_p2.txt'))
+    result = main(input_as_lines('sample_p2.txt'))
     print(f"Sample one result:\n{result}")
     assert result == 117440
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part one result:\n{result}")
     print(f"Time taken: {time.time() - start_time:.2f} seconds")
