@@ -1,7 +1,7 @@
 import dataclasses
 from collections.abc import Callable
 
-from file_handling import get_file_as_lines, get_specific_file_as_lines
+from file_handling import input_as_lines, input_as_lines
 
 gate_function = {
     'AND': lambda a, b: a & b,
@@ -52,6 +52,6 @@ def parse_gates(gates_lines: list[str]):
 
 
 if __name__ == '__main__':
-    # result = parse(get_file_as_lines())
-    result = parse(get_specific_file_as_lines('sample_input.txt'))
+    # result = parse(input_as_lines())
+    result = parse(input_as_lines('sample.txt'))
     print(f"Part one result:\n{result}")

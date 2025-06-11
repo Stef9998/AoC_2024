@@ -1,4 +1,5 @@
 from utils import get_input_as_lists
+from python.file_handling import input_as_lines
 
 
 def part_one(list1, list2):
@@ -40,6 +41,6 @@ def count_occurrences(num, lst):
 
 
 if __name__ == '__main__':
-    list1, list2 = get_input_as_lists()
+    list1, list2 = get_input_as_lists(input_as_lines())
     print(part_one(list1, list2))
     print(part_two(list1, list2))

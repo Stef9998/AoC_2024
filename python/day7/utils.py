@@ -1,7 +1,7 @@
 from collections import deque
 from typing import Iterable
 
-from file_handling import get_file_as_lines
+from file_handling import input_as_lines
 from list_handling import number_parser
 
 
@@ -16,6 +16,6 @@ def split_lines(lines: list[str]) -> Iterable[tuple[str, str]]:
 
 
 if __name__ == "__main__":
-    lines_ = get_file_as_lines()
+    lines_ = input_as_lines()
     data = lines_to_data(lines_)
     print(list(data))

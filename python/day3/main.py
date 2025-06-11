@@ -1,9 +1,8 @@
 from typing import Iterable
 
-from file_handling import get_file_as_lines
-
 from day3.utils import get_lines_as_list_p1
 from day3.utils import get_lines_as_list_p2
+from file_handling import input_as_lines
 
 
 def sum_for_result(lines: Iterable[list[(int, int)]]):
@@ -21,9 +20,9 @@ def part_two(lines):
 
 
 if __name__ == '__main__':
-    part_one_result = part_one(get_file_as_lines())
+    part_one_result = part_one(input_as_lines())
     print(f"Part one result:\n{part_one_result}")
     assert part_one_result == 179571322
-    part_two_result = part_two(get_file_as_lines())
+    part_two_result = part_two(input_as_lines())
     print(f"Part two result:\n{part_two_result}")
     assert part_two_result == 103811193

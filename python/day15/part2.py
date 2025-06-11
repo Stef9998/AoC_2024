@@ -1,4 +1,4 @@
-from python.file_handling import get_file_as_lines, get_specific_file_as_lines
+from python.file_handling import input_as_lines, input_as_lines
 
 
 def main(lines: list[str]) -> int:
@@ -6,7 +6,7 @@ def main(lines: list[str]) -> int:
 
 
 if __name__ == '__main__':
-    result = main(get_file_as_lines())
-    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines())
+    # result = main(input_as_lines('sample.txt'))
     print(f"Part two result:\n{result}")
     # assert result ==

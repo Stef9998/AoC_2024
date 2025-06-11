@@ -3,18 +3,17 @@ import utils as ut
 from collections.abc import Iterator
 
 from python.day14.utils import parse_lines, Robot
-from python.file_handling import get_file_as_lines
+from python.file_handling import input_as_lines
 from python.map_handling import Coordinate
 
 
 def main(lines: list[str]) -> int:
-
     robots = parse_lines(lines)
 
     robot_generators = tuple(get_next_position(robot) for robot in robots)
 
     entropies_after_i_iterations = (
-        (calculate_entropy(map(next, robot_generators)),i)
+        (calculate_entropy(map(next, robot_generators)), i)
         for i in range(1, ut.map_width * ut.map_height)
     )
 
@@ -78,7 +77,7 @@ def calculate_entropy(coordinates: Iterator[Coordinate]) -> float:
 
 
 if __name__ == '__main__':
-    result = main(get_file_as_lines())
-    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines())
+    # result = main(input_as_lines('sample.txt'))
     print(f"Part two result:\n{result}")
     # assert result ==

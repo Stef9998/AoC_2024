@@ -1,5 +1,5 @@
 from day12.utils import surrounding_coordinates, fill_one_plot
-from file_handling import get_file_as_lines
+from file_handling import input_as_lines
 from map_handling import Coordinate, out_of_bounds_calculator, get_map_dimensions
 
 
@@ -60,12 +60,14 @@ def get_perimeter_for_coordinate(coordinate, visited):
         >>> get_perimeter_for_coordinate(Coordinate(0, 2), visited)
         3
     """
-    no_of_surrounding_coordinates = sum(1 for surrounding_coordinate in surrounding_coordinates(coordinate) if surrounding_coordinate in visited)
+    no_of_surrounding_coordinates = sum(
+        1 for surrounding_coordinate in surrounding_coordinates(coordinate) if surrounding_coordinate in visited
+    )
     return 4 - no_of_surrounding_coordinates
 
 
 if __name__ == '__main__':
-    result = main(get_file_as_lines())
-    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines())
+    # result = main(input_as_lines('sample.txt'))
     print(f"Part one result:\n{result}")
     # assert result ==

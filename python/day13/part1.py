@@ -1,12 +1,11 @@
 import sys
 
 from python.day13.utils import get_input_as_blocks, button_a_cost, button_b_cost
-from python.file_handling import get_file_as_lines
+from python.file_handling import input_as_lines
 from python.map_handling import Coordinate
 
 
 def main(lines: list[str]) -> int:
-
     data_blocks = get_input_as_blocks(lines)
 
     return sum(get_lowest_cost(button_a, button_b, prize) for button_a, button_b, prize in data_blocks)
@@ -33,8 +32,7 @@ def get_lowest_cost(button_a_movement: Coordinate, button_b_movement: Coordinate
 
 
 def find_lowest_cost_calculator(button_a_movement: Coordinate, button_b_movement: Coordinate, prize: Coordinate):
-
-    def find_lowest_cost_recursive(current_coordinate: Coordinate , button_b_pressed_count: int, current_cost: int):
+    def find_lowest_cost_recursive(current_coordinate: Coordinate, button_b_pressed_count: int, current_cost: int):
         if current_coordinate == prize:
             return current_cost
         if button_b_pressed_count >= 100:
@@ -52,7 +50,7 @@ def find_lowest_cost_calculator(button_a_movement: Coordinate, button_b_movement
                                                 current_cost + button_a_cost)
         return after_a_found_cost
 
-    def button_a_recursive(current_coordinate: Coordinate , button_a_pressed_count: int, current_cost: int):
+    def button_a_recursive(current_coordinate: Coordinate, button_a_pressed_count: int, current_cost: int):
         if current_coordinate == prize:
             return current_cost
         if button_a_pressed_count >= 100:
@@ -73,9 +71,10 @@ def find_lowest_cost_calculator(button_a_movement: Coordinate, button_b_movement
 
 if __name__ == '__main__':
     import time
+
     start_time = time.time()
-    result = main(get_file_as_lines())
-    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines())
+    # result = main(input_as_lines('sample.txt'))
     end_time = time.time()
     print(f"Part one result:\n{result}")
     print(f"Calculation time: {end_time - start_time:.4f} seconds")

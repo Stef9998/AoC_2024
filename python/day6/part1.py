@@ -1,10 +1,9 @@
 from day6.utils import init_maze_findings
-from file_handling import get_file_as_lines
+from file_handling import input_as_lines
 from map_handling import Coordinate, Direction
 
 
 def main(lines: list[str]) -> int:
-
     maze_information = init_maze_findings(lines)
 
     maze_width = maze_information["maze_width"]
@@ -23,7 +22,6 @@ def main(lines: list[str]) -> int:
     )
 
     visited: set[Coordinate] = set()
-
 
     while True:
         visited.add(guard_position)
@@ -46,6 +44,6 @@ def calc_next_position(guard_direction: Direction, guard_position: Coordinate) -
 
 
 if __name__ == '__main__':
-    part_one_result = main(get_file_as_lines())
+    part_one_result = main(input_as_lines())
     print(f"Part one result:\n{part_one_result}")
     assert part_one_result == 4711, f'Expected 4711, but got {part_one_result}'

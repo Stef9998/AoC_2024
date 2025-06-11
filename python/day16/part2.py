@@ -1,10 +1,11 @@
 from day16.part1 import get_next_possible_directions, get_tile, get_next_turn_direction, is_straight_no_branch, \
     branch_factor, get_start_directions
 from day16.utils import Tile, get_map_information, print_map, can_step_on_tile
-from file_handling import get_file_as_lines, get_specific_file_as_lines
+from file_handling import input_as_lines
 from map_handling import Coordinate, Direction
 
 global lowest_found_path_glob
+
 
 # TODO:
 # cache something to not needing to calculate again
@@ -106,19 +107,19 @@ def all_shortest_paths_tiles(map_data, lowest_found_path, start_coordinate):
 
     return start_finding_for_all_directions()
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     import time
 
-    result = main(get_specific_file_as_lines('sample_input.txt'), 7036)
+    result = main(input_as_lines('sample.txt'), 7036)
     print(f"Sample one result:\n{result}")
     assert result == 45
-    result = main(get_specific_file_as_lines('sample2_input.txt'), 11048)
+    result = main(input_as_lines('sample2_input.txt'), 11048)
     print(f"Sample two result:\n{result}")
     assert result == 64
 
     start_time = time.time()
-    result = main(get_file_as_lines(), 143580)
+    result = main(input_as_lines(), 143580)
     print(f"Part one result:\n{result}")
     assert result > 629
     assert result == 645

@@ -1,5 +1,5 @@
 from day12.utils import fill_one_plot
-from file_handling import get_file_as_lines
+from file_handling import input_as_lines
 from map_handling import Coordinate, out_of_bounds_calculator, get_map_dimensions, Direction
 
 global is_out_of_bounds
@@ -32,6 +32,7 @@ def main(lines: list[str]) -> int:
         # print()
 
     return fence_cost
+
 
 def start_side_search(plot_coordinates: set[Coordinate]):
     """
@@ -73,7 +74,9 @@ def start_side_search(plot_coordinates: set[Coordinate]):
 
 
 def connected_fences(fences_coordinates: dict[Direction, set[Coordinate]]):
-    return sum(no_of_connected_fences(direction, dir_coordinates) for direction, dir_coordinates in fences_coordinates.items())
+    return sum(
+        no_of_connected_fences(direction, dir_coordinates) for direction, dir_coordinates in fences_coordinates.items()
+    )
 
 
 def no_of_connected_fences(direction: Direction, fences_coordinates: set[Coordinate]):
@@ -87,11 +90,13 @@ def no_of_connected_fences(direction: Direction, fences_coordinates: set[Coordin
         fences_coordinates -= connected_fences_right
     return fences
 
+
 def get_connected_fences(coordinate, fences_coordinates, direction: Direction):
     next_coordinate = coordinate + direction.value
     if next_coordinate not in fences_coordinates:
         return set()
     return get_connected_fences(next_coordinate, fences_coordinates, direction).union({next_coordinate})
+
 
 def get_plot_fences(plot_coordinates) -> dict[Direction, set[Coordinate]]:
     fence_coordinates = {direction: set() for direction in Direction}
@@ -100,6 +105,7 @@ def get_plot_fences(plot_coordinates) -> dict[Direction, set[Coordinate]]:
         for direction in fences:
             fence_coordinates[direction].add(coordinate)
     return fence_coordinates
+
 
 def get_fences(plot_coordinates: set[Coordinate], coordinate: Coordinate):
     """
@@ -118,6 +124,7 @@ def get_fences(plot_coordinates: set[Coordinate], coordinate: Coordinate):
     """
     # return {direction for direction in Direction if is_fence(coordinate, direction, plot_coordinates)}
     return filter(lambda direction: is_fence(coordinate, direction, plot_coordinates), Direction)
+
 
 def is_fence(coordinate, direction, plot_coordinates):
     """
@@ -150,7 +157,7 @@ def is_fence(coordinate, direction, plot_coordinates):
 
 
 if __name__ == '__main__':
-    result = main(get_file_as_lines())
-    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    result = main(input_as_lines())
+    # result = main(input_as_lines('sample.txt'))
     print(f"Part two result:\n{result}")
     # assert result ==

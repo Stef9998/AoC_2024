@@ -1,7 +1,7 @@
 from collections.abc import Generator
 from enum import Enum
 
-from file_handling import get_specific_file_as_lines
+from file_handling import input_as_lines
 
 key_lock_data_line_length = 7
 num_of_pins = 5
@@ -112,4 +112,4 @@ def key_lock_getter(lines: list[str]) -> Generator[list[str], None, None]:
 
 
 if __name__ == '__main__':
-    parse(get_specific_file_as_lines('sample_input.txt'))
+    parse(input_as_lines('sample.txt'))

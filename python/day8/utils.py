@@ -24,7 +24,6 @@ def add_char_to_database(char: str, x: int, y: int, database: dict[str, list[Coo
 
 
 def init_in_bounds_calculator(width: int, height: int):
-
     def is_in_bounds(coordinate: Coordinate):
         return not out_of_bounds(Coordinate(*coordinate), width, height)
 

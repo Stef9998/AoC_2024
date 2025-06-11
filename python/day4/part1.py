@@ -2,6 +2,7 @@ from collections import deque
 
 from enum import Enum
 
+
 class Direction(Enum):
     VERTICAL = 0
     DOWN_RIGHT = 1
@@ -9,7 +10,6 @@ class Direction(Enum):
 
 
 def main(lines: list[str]) -> int:
-
     line_length = len(lines[0])
     match_words = match_word_all_directions(line_length)
 

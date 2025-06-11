@@ -1,6 +1,6 @@
 import python.day14.utils as ut
 from python.day14.utils import parse_lines, Robot
-from python.file_handling import get_specific_file_as_lines
+from python.file_handling import input_as_lines
 from python.map_handling import Coordinate
 
 
@@ -69,7 +69,7 @@ def get_coordinates_after_n_iterations(robot: Robot, n: int) -> Coordinate:
 
 
 if __name__ == '__main__':
-    # result = main(get_file_as_lines())
-    result = main(get_specific_file_as_lines('sample_input.txt'))
+    # result = main(input_as_lines())
+    result = main(input_as_lines('sample.txt'))
     print(f"Part one result:\n{result}")
     # assert result ==

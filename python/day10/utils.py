@@ -1,5 +1,6 @@
 from map_handling import Coordinate
 
+
 def get_trail_starts(trail_map: list[list[int]]) -> set[Coordinate]:
     start_coordinates = set()
     for row_no, row in enumerate(trail_map):

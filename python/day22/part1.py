@@ -1,5 +1,5 @@
 from day22.utils import secret_number_after_iterations
-from file_handling import get_file_as_lines, get_specific_file_as_lines
+from file_handling import input_as_lines, input_as_lines
 
 
 def main(lines: list[str]) -> int:
@@ -9,12 +9,12 @@ if __name__ == '__main__':
 
     import time
 
-    # result = main(get_specific_file_as_lines('sample_input.txt'))
+    # result = main(input_as_lines('sample.txt'))
     # print(f"Sample result:\n{result}")
     # assert result ==
 
     start_time = time.time()
-    result = main(get_file_as_lines())
+    result = main(input_as_lines())
     print(f"Part one result:\n{result}")
     assert result == 17965282217
     print(f"Time taken: {time.time() - start_time:.2f} seconds")

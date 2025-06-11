@@ -1,4 +1,4 @@
-from file_handling import get_file_as_lines, get_specific_file_as_lines
+from file_handling import input_as_lines
 
 from map_handling import Coordinate, Direction, get_map_dimensions
 from utils import get_trail_starts
@@ -98,12 +98,12 @@ def get_surrounding_coordinates(coordinate: Coordinate) -> list[Coordinate]:
     return list(filter(lambda x: x is not None, possible_coordinates))
 
 
-def init_global_variables_doctest(h,w):
+def init_global_variables_doctest(h, w):
     global height, width
-    height, width = h,w
+    height, width = h, w
 
 
 if __name__ == '__main__':
-    part_two_result = main(get_file_as_lines())
-    # part_two_result = main(get_specific_file_as_lines('sample_input.txt'))
+    part_two_result = main(input_as_lines())
+    # part_two_result = main(input_as_lines('sample.txt'))
     print(f"Part one result:\n{part_two_result}")
