@@ -9,27 +9,28 @@ def main(lines: list[str]) -> int:
     maze_width = maze_information["maze_width"]
     maze_height = maze_information["maze_height"]
 
-    obstacle_positions = maze_information["obstacle_positions"]
-    guard_position = maze_information["guard_start"]
-    guard_direction = maze_information["guard_direction"]
-
     outside_bounds = lambda position: (
             position.x < 0 or position.x >= maze_width
             or position.y < 0 or position.y >= maze_height
     )
+
+    return len(get_visited(maze_information, outside_bounds))
+
+
+def get_visited(maze_information, outside_bounds_calculator):
+    obstacle_positions = maze_information["obstacle_positions"]
+    guard_position = maze_information["guard_start"]
+    guard_direction = maze_information["guard_direction"]
     get_next_guard_state = lambda position, direction: (
         get_next_guard_state_with_obstacles(position, direction, obstacle_positions)
     )
-
     visited: set[Coordinate] = set()
-
     while True:
         visited.add(guard_position)
         guard_position, guard_direction = get_next_guard_state(guard_position, guard_direction)
-        if outside_bounds(guard_position):
+        if outside_bounds_calculator(guard_position):
             break
-
-    return len(visited)
+    return visited
 
 
 def get_next_guard_state_with_obstacles(guard_position: Coordinate, guard_direction, obstacle_positions):
@@ -44,6 +45,14 @@ def calc_next_position(guard_direction: Direction, guard_position: Coordinate) -
 
 
 if __name__ == '__main__':
-    part_one_result = main(input_as_lines())
-    print(f"Part one result:\n{part_one_result}")
-    assert part_one_result == 4711, f'Expected 4711, but got {part_one_result}'
+    import time
+
+    result = main(input_as_lines('sample.txt'))
+    print(f"Sample one result:\n{result}")
+    assert result == 41
+
+    start_time = time.time()
+    result = main(input_as_lines())
+    print(f"Part one result:\n{result}")
+    assert result == 4711
+    print(f"Time taken: {time.time() - start_time:.3f} seconds")
