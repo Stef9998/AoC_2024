@@ -9,8 +9,8 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 2   | \[x\]  | \[x\]   |
 | 3   | \[x\]  | \[ \]   |
 | 4   | \[x\]  | \[ \]   |
-| 5   | \[ \]  | \[ \]   |
-| 6   | \[/\]  | \[ \]   |
+| 5   | \[x\]  | \[ \]   |
+| 6   | \[x\]  | \[ \]   |
 | 7   | \[x\]  | \[ \]   |
 | 8   | \[x\]  | \[ \]   |
 | 9   | \[x\]  | \[ \]   |
@@ -38,7 +38,6 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 Day 4 - Part 1
 - Wanted to only use one pass through the input file
 - Used a closure (for the first time) to keep track of the current state of the last line
-  - went a bit overboard with the closures :D
 
 Day 4 - Part 2
   - really nice, clean functional solution
