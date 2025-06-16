@@ -137,6 +137,11 @@ class Direction(Enum):
         current_index = directions.index(self)
         return directions[(current_index - 1) % len(directions)]
 
+    def opposite_direction(self) -> 'Direction':
+        directions = list(Direction)
+        current_index = directions.index(self)
+        return directions[(current_index + 2) % len(directions)]
+
     def __str__(self) -> str:
         return f"{self.name.capitalize()} {self.value}"
 
