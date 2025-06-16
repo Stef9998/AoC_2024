@@ -11,7 +11,14 @@ def main(lines: list[str], bit_count: int = 1024, width=71, height=71) -> int:
     end_coordinate = Coordinate(width - 1, height - 1)
     map_handling.initialise_map(width, height)
 
-    step = get_step(blocked_coordinates)
+    result = calc(get_step(blocked_coordinates), start_coordinate, end_coordinate)
+    if result:
+        return result
+    else:
+        raise ValueError
+
+
+def calc(step, start_coordinate, end_coordinate):
     previous_coordinates = {start_coordinate}
     current_coordinates = {start_coordinate}
     steps = 0
@@ -20,10 +27,11 @@ def main(lines: list[str], bit_count: int = 1024, width=71, height=71) -> int:
         previous_coordinates = current_coordinates
         current_coordinates = new_coordinates
         steps += 1
-        printout_step(blocked_coordinates, current_coordinates, previous_coordinates, steps)
+        # printout_step(blocked_coordinates, current_coordinates, previous_coordinates, steps)
         if end_coordinate in current_coordinates:
-            break
-    return steps
+            return steps
+        if len(current_coordinates) == 0:
+            return None
 
 
 if __name__ == '__main__':
