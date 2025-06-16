@@ -69,7 +69,6 @@ def adjacent_walls(map_data, coord):
                   (direction for direction in Direction))
 
 
-
 if __name__ == '__main__':
     import time
 
