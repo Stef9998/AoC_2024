@@ -1,0 +1,3 @@
+package stef9998.aoc2024
+
+// called after parsing of the file for creating the more complex data structures like map, ...
