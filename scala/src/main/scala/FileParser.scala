@@ -29,4 +29,26 @@ object FileParser {
   def parseLines[T](lines: List[String], parser: String => T): List[T] = {
     lines.map(parser)
   }
+  
+  /**
+   * Splits a list of lines at the first empty line.
+   * Returns a tuple: (lines before the empty line, lines after the empty line).
+   */
+  def splitAtEmptyLine(lines: List[String]): (List[String], List[String]) = {
+    val (before, afterWithEmpty) = lines.span(_.nonEmpty)
+    val after = afterWithEmpty.dropWhile(_.isEmpty)
+    (before, after)
+  }
+
+  /**
+   * Splits a list of lines at every empty line.
+   * Returns a list of list of strings, where each inner list is a block of non-empty lines.
+   */
+  def splitAtAllEmptyLines(lines: List[String]): List[List[String]] = {
+    lines.foldLeft(List(List.empty[String])) { (acc, line) =>
+      if (line.isEmpty) acc :+ List.empty[String]
+      else acc.init :+ (acc.last :+ line)
+    }.filter(_.nonEmpty)
+  }
+
 }
