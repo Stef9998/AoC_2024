@@ -23,10 +23,11 @@ def main(): Unit =
   assert(result1 == 6505)
 
   val sample2: Int = run(sampleLines, part2)
+  println(sample2)
   assert(sample2 == 123)
   val result2: Int = run(lines, part2)
-  assert(result2 == 6897)
   println(result2)
+  assert(result2 == 6897)
 
 
 def part1(constrains: List[(Int, Int)], lines: List[List[Int]]): Int = {
@@ -53,15 +54,32 @@ def p1calc(line: List[Int], constrains: List[(Int, Int)]): Int = {
   if correctOrder(line, constrains) then line((line.length - 1) / 2) else 0
 }
 
+
 def part2(constrains: List[(Int, Int)], lines: List[List[Int]]): Int = {
+  val customOrdering = partialOrderingFromConstraints(constrains)
   val linesToCorrect = lines.filter(line => !correctOrder(line, constrains))
 
+  linesToCorrect.map(p2calc(_, customOrdering)).sum
+}
 
-  import scalax.collection.immutable.Graph
-  import scalax.collection.edges.DiEdge
-  import scalax.collection.GraphPredef._
-  
-  val edges: List[DiEdge[Int]] = constraints.map { case (a, b) => a ~> b }
+def p2calc(line: List[Int], ordering: Ordering[Int]): Int = {
+  val sortedLine = line.sorted(ordering)
+  sortedLine((sortedLine.length - 1) / 2)
+}
 
-  0
+/**
+ * Creates a partial ordering from a list of constraints.
+ *
+ * @param constraints List of pairs representing constraints (a, b) where a comes before b.
+ * @tparam T The type of the elements in the constraints.
+ * @return An Ordering[T] that defines the partial order based on the constraints.
+ */
+def partialOrderingFromConstraints[T](constraints: List[(T, T)]): Ordering[T] = {
+
+  val constraintMap: Map[T, List[T]] = constraints.groupMap(_._1)(_._2)
+
+  (a: T, b: T) =>
+    if (constraintMap.getOrElse(a, List()).contains(b)) -1
+    else if (constraintMap.getOrElse(b, List()).contains(a)) 1
+    else 0
 }

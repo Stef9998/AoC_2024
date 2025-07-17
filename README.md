@@ -11,7 +11,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 2   | \[x\]  | \[x\]   | \[x\] |
 | 3   | \[x\]  | \[ \]   | \[x\] |
 | 4   | \[x\]  | \[ \]   | \[x\] |
-| 5   | \[x\]  | \[ \]   | \[ \] |
+| 5   | \[x\]  | \[ \]   | \[x\] |
 | 6   | \[x\]  | \[ \]   | \[ \] |
 | 7   | \[x\]  | \[ \]   | \[ \] |
 | 8   | \[x\]  | \[ \]   | \[ \] |
