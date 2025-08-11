@@ -13,7 +13,7 @@ Trying to solve the problems in a functional way for learning a bit of functiona
 | 4   | \[x\]  | \[ \]   | \[x\] |
 | 5   | \[x\]  | \[ \]   | \[x\] |
 | 6   | \[x\]  | \[ \]   | \[ \] |
-| 7   | \[x\]  | \[ \]   | \[ \] |
+| 7   | \[x\]  | \[ \]   | \[x\] |
 | 8   | \[x\]  | \[ \]   | \[ \] |
 | 9   | \[x\]  | \[ \]   | \[ \] |
 | 10  | \[x\]  | \[ \]   | \[ \] |
