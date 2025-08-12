@@ -21,22 +21,44 @@ def main(): Unit =
     partFunction(computer)
   }
 
-  val sample1: String = runP1(sampleLines, part1)
-  assert(sample1 == results("part1")("sample"))
-  val result1: String = runP1(lines, part1)
-  println(result1)
-  assert(result1 == results("part1")("input"))
+  def runP2(lines: List[String], partFunction: ((Map[String, Int], List[Int])) => Long) = {
+    val sampleData = Parser().parseInput(lines)
+    partFunction(sampleData)
+  }
 
-//  val sample2 = runP2(sampleLinesPart2, part2)
-//  println(sample2)
-//  assert(sample2 == results("part2")("sample").asInstanceOf[Int].toLong)
-//  val result2 = runP2(lines, part2)
-//  println(result2)
-//  assert(result2 == results("part2")("input").asInstanceOf[Int].toLong)
+//  val sample1: String = runP1(sampleLines, part1)
+//  assert(sample1 == results("part1")("sample"))
+//  val result1: String = runP1(lines, part1)
+//  println(result1)
+//  assert(result1 == results("part1")("input"))
+
+  val sample2 = runP2(sampleLinesPart2, part2)
+  println(sample2)
+  assert(sample2 == results("part2")("sample").asInstanceOf[Int].toLong)
+  val result2 = runP2(lines, part2)
+  println(result2)
+  assert(result2 == results("part2")("input").asInstanceOf[Int].toLong)
 
 
-def part1(computer: Computer): String = {
+def runTillHaltGetOutput(computer: Computer): String = {
   while (computer.step()) {
   }
   computer.getOutput().mkString(",")
+}
+
+def part2(config: (Map[String, Int], List[Int])): Long = {
+  val program = config._2
+  val programOutput = program.mkString(",")
+  var i = 0L
+  while (true) {
+    if (i % 100_000_000 == 0) {
+      println(s"Trying with A = ${"%,d".format(i/1000000)} million")
+    }
+    val computer: Computer = TestableComputer(i, config._1("B"), config._1("C"), program)
+    if (runTillHaltGetOutput(computer) == programOutput) {
+      return i
+    }
+    i += 1
+  }
+  throw new IllegalArgumentException("No valid value found for part 2")
 }

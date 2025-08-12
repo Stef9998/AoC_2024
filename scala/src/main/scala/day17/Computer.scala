@@ -21,14 +21,12 @@ class Computer(registerA: Long, registerB: Int, registerC: Int, program: List[In
   }
 
   def calcStep(opCode: Int, operant: Int): Unit = {
-    lazy val comboValue = operant match {
-      case 0 | 1 | 2 | 3 => operant
-      case 4 => regA.toInt
-      case 5 => regB.toInt
-      case 6 => regC.toInt
-      case 7 => throw new IllegalArgumentException(s"Operant Value 7 as combo value is reserved and cannot be used")
-      case _ => throw new IllegalArgumentException(s"Operant Value must be between 0 and 7, but was $operant")
-    }
+    lazy val comboValue = calcComboValue(operant)
+    runStep(opCode, operant, comboValue)
+    instructionPointer += 2
+  }
+
+  protected def runStep(opCode: Int, operant: Int, comboValue: => Int): Unit = {
     opCode match {
       case 0 => // ADV
         regA = regA >> comboValue
@@ -51,7 +49,17 @@ class Computer(registerA: Long, registerB: Int, registerC: Int, program: List[In
         regC = regA >> comboValue
       case _ => throw new IllegalArgumentException(s"op-code must be between 0 and 7, but was: $opCode")
     }
-    instructionPointer += 2
+  }
+
+  protected def calcComboValue(operant: Int): Int = {
+    operant match {
+      case 0 | 1 | 2 | 3 => operant
+      case 4 => regA.toInt
+      case 5 => regB.toInt
+      case 6 => regC.toInt
+      case 7 => throw new IllegalArgumentException(s"Operant Value 7 as combo value is reserved and cannot be used")
+      case _ => throw new IllegalArgumentException(s"Operant Value must be between 0 and 7, but was $operant")
+    }
   }
 
   def getState(): String = {
