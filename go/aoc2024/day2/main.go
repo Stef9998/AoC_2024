@@ -29,13 +29,7 @@ func main() {
 }
 
 func part1(lines [][]int) int {
-	saveReports := 0
-	for _, report := range lines {
-		if reportIsSafe(report) {
-			saveReports++
-		}
-	}
-	return saveReports
+	return util.Count(lines, reportIsSafe)
 }
 
 func part2(lines [][]int) int {
@@ -44,10 +38,8 @@ func part2(lines [][]int) int {
 		if reportIsSafe(report) {
 			saveReports++
 		} else {
-			fmt.Println(report)
 			for i := 0; i < len(report); i++ {
 				modified := append(append([]int{}, report[:i]...), report[i+1:]...)
-				fmt.Println(modified)
 				if reportIsSafe(modified) {
 					saveReports++
 					break
