@@ -26,3 +26,18 @@ func ReadLines(day int, filename string) ([]string, error) {
 	}
 	return lines, nil
 }
+
+func ReadChars(day int, filename string) ([][]rune, error) {
+	lines, err := ReadLines(day, filename)
+	if err != nil {
+		return nil, err
+	}
+	mapval := make([][]rune, len(lines))
+	for i, line := range lines {
+		mapval[i] = make([]rune, len(line))
+		for j, char := range line {
+			mapval[i][j] = char
+		}
+	}
+	return mapval, err
+}
