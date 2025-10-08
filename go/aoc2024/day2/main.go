@@ -3,8 +3,6 @@ package main
 import (
 	"aoc2024/util"
 	"fmt"
-	"strconv"
-	"strings"
 )
 
 const day = 2
@@ -19,7 +17,10 @@ func main() {
 
 	linesParsed := make([][]int, len(lines))
 	for i, line := range lines {
-		linesParsed[i] = splitInts(line)
+		linesParsed[i], err = util.SeparatedNumbers(line, " ")
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	res1 := part1(linesParsed)
@@ -77,17 +78,4 @@ func reportIsDecreasing(report []int) bool {
 		}
 	}
 	return true
-}
-
-func splitInts(s string) []int {
-	fields := strings.Fields(s)
-	result := make([]int, len(fields))
-	for i, field := range fields {
-		n, err := strconv.Atoi(field)
-		if err != nil {
-			panic(fmt.Sprintf("invalid input format: %q, error: %v", s, err))
-		}
-		result[i] = n
-	}
-	return result
 }
