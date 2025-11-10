@@ -33,6 +33,21 @@ const (
 	Left
 )
 
+func CharToDir(char rune) Direction {
+	switch char {
+	case '^':
+		return Up
+	case '>':
+		return Right
+	case 'v':
+		return Down
+	case '<':
+		return Left
+	default:
+		panic("not right char")
+	}
+}
+
 func (d *Direction) Delta() Coordinate {
 	switch *d {
 	case Up:

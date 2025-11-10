@@ -35,6 +35,10 @@ func ReadChars(day int, filename string) ([][]rune, error) {
 	if err != nil {
 		return nil, err
 	}
+	return LinesToChars(lines)
+}
+
+func LinesToChars(lines []string) ([][]rune, error) {
 	mapval := make([][]rune, len(lines))
 	for i, line := range lines {
 		mapval[i] = make([]rune, len(line))
@@ -42,7 +46,7 @@ func ReadChars(day int, filename string) ([][]rune, error) {
 			mapval[i][j] = char
 		}
 	}
-	return mapval, err
+	return mapval, nil
 }
 
 func SplitAtEmptyLine(lines []string) ([]string, []string, error) {
