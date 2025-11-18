@@ -48,6 +48,21 @@ func CharToDir(char rune) Direction {
 	}
 }
 
+func (d *Direction) ToChar() rune {
+	switch *d {
+	case Up:
+		return '^'
+	case Right:
+		return '>'
+	case Down:
+		return 'v'
+	case Left:
+		return '<'
+	default:
+		panic("not possible direction")
+	}
+}
+
 func (d *Direction) Delta() Coordinate {
 	switch *d {
 	case Up:

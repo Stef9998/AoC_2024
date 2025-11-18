@@ -7,10 +7,12 @@ import (
 )
 
 const day = 15
+const printout = false
 
 func main() {
-	//filename := "input.txt"
-	filename := "sample.txt"
+	filename := "input.txt"
+	//filename := "sample.txt"
+	//filename := "custom.txt"
 	lines, err := util.ReadLines(day, filename)
 	if err != nil {
 		panic(fmt.Sprintf("Error reading file: %v", err))
@@ -21,9 +23,9 @@ func main() {
 	}
 	res2 := part2(mapLines, dirLines)
 	fmt.Println("Part 2:", res2)
-	//if res2 !=  {
-	//	panic("wrong result")
-	//}
+	if res2 != 1543338 {
+		panic("wrong result")
+	}
 }
 
 func part2(mapLines, dirLines []string) int {
@@ -33,7 +35,10 @@ func part2(mapLines, dirLines []string) int {
 	ut.PrintoutMap(mapData)
 	for _, direction := range directions {
 		step(tileMap, isBorderClosure(isBorderMap), &robotCoordinate, direction)
-		ut.PrintoutMap(mapData)
+		if printout {
+			fmt.Printf("Direction: %c\n", direction.ToChar())
+			ut.PrintoutMap(mapData)
+		}
 	}
 	return getGPS(mapData)
 }
@@ -43,7 +48,7 @@ func getGPS(mapData [][]ut.Tile) int {
 	for y, line := range mapData {
 		for x, tile := range line {
 			if tile == ut.LBox {
-				sum += 100 * x * y
+				sum += 100*y + x
 			}
 		}
 	}
@@ -60,7 +65,8 @@ func step(tileMap ut.TileMap, isBorder func(coordinate util.Coordinate) bool, ro
 	case ut.Wall:
 		//do nothing
 	case ut.LBox, ut.RBox:
-		if moveBoxes(tileMap, newRobotCoordinate) {
+		if canMoveBoxes(tileMap, newRobotCoordinate, direction) {
+			moveBoxes(tileMap, newRobotCoordinate, direction)
 			tileMap.SetTile(*robotCoordinate, ut.Empty)
 			*robotCoordinate = newRobotCoordinate
 			tileMap.SetTile(*robotCoordinate, ut.Robot)
@@ -71,9 +77,90 @@ func step(tileMap ut.TileMap, isBorder func(coordinate util.Coordinate) bool, ro
 }
 
 // returns true if was possible to move boxes
-func moveBoxes(tileMap ut.TileMap, newRobotCoordinate util.Coordinate) bool {
-	//TODO
+func canMoveBoxes(tileMap ut.TileMap, coordinate util.Coordinate, direction util.Direction) bool {
+	switch tileMap.GetTile(coordinate) {
+	case ut.Empty:
+		return true
+	case ut.Wall:
+		return false
+	case ut.LBox:
+		rBoxCoord := util.AddCoords(coordinate, util.Coordinate{X: 1, Y: 0})
+		newCoord := util.AddCoords(coordinate, direction.Delta())
+		newRBoxCoord := util.AddCoords(rBoxCoord, direction.Delta())
+		move := false
+		if direction == util.Up || direction == util.Down {
+			move = canMoveBoxes(tileMap, newCoord, direction) &&
+				canMoveBoxes(tileMap, newRBoxCoord, direction)
+		} else if direction == util.Right {
+			move = canMoveBoxes(tileMap, newRBoxCoord, direction)
+		} else {
+			panic("This function should never hit LBox when moving to the left")
+		}
+		return move
+	case ut.RBox:
+		lBoxCoord := util.AddCoords(coordinate, util.Coordinate{X: -1, Y: 0})
+		newCoord := util.AddCoords(coordinate, direction.Delta())
+		newLBoxCoord := util.AddCoords(lBoxCoord, direction.Delta())
+		move := false
+		if direction == util.Up || direction == util.Down {
+			move = canMoveBoxes(tileMap, newCoord, direction) &&
+				canMoveBoxes(tileMap, newLBoxCoord, direction)
+		} else if direction == util.Left {
+			move = canMoveBoxes(tileMap, newLBoxCoord, direction)
+		} else {
+			panic("This function should never hit LBox when moving to the left")
+		}
+		return move
+	default:
+		panic("how?")
+	}
 	return false
+}
+
+func moveBoxes(tileMap ut.TileMap, coordinate util.Coordinate, direction util.Direction) {
+	switch tileMap.GetTile(coordinate) {
+	case ut.Empty:
+		return
+	case ut.Wall:
+		panic("This function should only be called when canMove is true")
+	case ut.LBox:
+		rBoxCoord := util.AddCoords(coordinate, util.Coordinate{X: 1, Y: 0})
+		newCoord := util.AddCoords(coordinate, direction.Delta())
+		newRBoxCoord := util.AddCoords(rBoxCoord, direction.Delta())
+		if direction == util.Up || direction == util.Down {
+			moveBoxes(tileMap, newCoord, direction)
+			moveBoxes(tileMap, newRBoxCoord, direction)
+		} else if direction == util.Right {
+			moveBoxes(tileMap, newRBoxCoord, direction)
+		} else {
+			panic("This function should never hit LBox when moving to the left")
+		}
+		tileMap.SetTile(coordinate, ut.Empty)
+		tileMap.SetTile(rBoxCoord, ut.Empty)
+		tileMap.SetTile(newCoord, ut.LBox)
+		tileMap.SetTile(newRBoxCoord, ut.RBox)
+		return
+	case ut.RBox:
+		lBoxCoord := util.AddCoords(coordinate, util.Coordinate{X: -1, Y: 0})
+		newCoord := util.AddCoords(coordinate, direction.Delta())
+		newLBoxCoord := util.AddCoords(lBoxCoord, direction.Delta())
+		if direction == util.Up || direction == util.Down {
+			moveBoxes(tileMap, newCoord, direction)
+			moveBoxes(tileMap, newLBoxCoord, direction)
+		} else if direction == util.Left {
+			moveBoxes(tileMap, newLBoxCoord, direction)
+		} else {
+			panic("This function should never hit LBox when moving to the left")
+		}
+		tileMap.SetTile(coordinate, ut.Empty)
+		tileMap.SetTile(lBoxCoord, ut.Empty)
+		tileMap.SetTile(newCoord, ut.RBox)
+		tileMap.SetTile(newLBoxCoord, ut.LBox)
+		return
+	default:
+		panic("how?")
+	}
+	return
 }
 
 func isBorderClosure(isBorderMap [][]bool) func(util.Coordinate) bool {
